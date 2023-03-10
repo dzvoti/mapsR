@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>mapsR: A guide to data analysis with R - 10&nbsp; Basic statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./jura.html" rel="next">
+<link href="./data_visualisation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Basic statistics</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">mapsR: A guide to data analysis with R</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/dzvoti/mapsR/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./mapsR.pdf">
+            <i class="bi bi-bi-file-pdf pe-1"></i>
+          Download PDF
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./mapsR.epub">
+            <i class="bi bi-bi-journal pe-1"></i>
+          Download ePub
+          </a>
+        </li>
+    </ul>
+    <a href="" title="Share" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+            <i class="bi bi-bi-twitter pe-1"></i>
+          Twitter
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=|url|">
+            <i class="bi bi-bi-facebook pe-1"></i>
+          Facebook
+          </a>
+        </li>
+    </ul>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_types.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reading_data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading/Importing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./writing_data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Writing/Exporting Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Custom Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./big_data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Wrangling Big Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_visualisation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Visualisation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./basic_statistics.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Basic statistics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./jura.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Basic Statistics: Jura</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#import-custom-functions" id="toc-import-custom-functions" class="nav-link active" data-scroll-target="#import-custom-functions">Import custom functions</a></li>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">Import data</a></li>
+  <li><a href="#explore-the-data" id="toc-explore-the-data" class="nav-link" data-scroll-target="#explore-the-data">Explore the data</a></li>
+  <li><a href="#convert-to-a-matrix" id="toc-convert-to-a-matrix" class="nav-link" data-scroll-target="#convert-to-a-matrix">Convert to a matrix</a></li>
+  <li><a href="#plot-the-image" id="toc-plot-the-image" class="nav-link" data-scroll-target="#plot-the-image">Plot the image</a></li>
+  <li><a href="#select-a-sample-size" id="toc-select-a-sample-size" class="nav-link" data-scroll-target="#select-a-sample-size">Select a sample size</a></li>
+  <li><a href="#sample-the-image" id="toc-sample-the-image" class="nav-link" data-scroll-target="#sample-the-image">Sample the image</a></li>
+  <li><a href="#testing-hypotheses-tasting-tea-and-testing-t" id="toc-testing-hypotheses-tasting-tea-and-testing-t" class="nav-link" data-scroll-target="#testing-hypotheses-tasting-tea-and-testing-t">Testing hypotheses: tasting tea and testing t</a>
+  <ul class="collapse">
+  <li><a href="#tasting-tea" id="toc-tasting-tea" class="nav-link" data-scroll-target="#tasting-tea">Tasting tea</a></li>
+  </ul></li>
+  <li><a href="#t-tests-to-compare-independent-samples" id="toc-t-tests-to-compare-independent-samples" class="nav-link" data-scroll-target="#t-tests-to-compare-independent-samples">t-tests to compare independent samples</a></li>
+  <li><a href="#analysis-of-variance-with-lm" id="toc-analysis-of-variance-with-lm" class="nav-link" data-scroll-target="#analysis-of-variance-with-lm">Analysis of variance with <code>lm()</code></a>
+  <ul class="collapse">
+  <li><a href="#example-1.-data-in-cabbage.dat" id="toc-example-1.-data-in-cabbage.dat" class="nav-link" data-scroll-target="#example-1.-data-in-cabbage.dat">Example 1. Data in cabbage.dat</a></li>
+  <li><a href="#example-2-data-in-cashmore.dat" id="toc-example-2-data-in-cashmore.dat" class="nav-link" data-scroll-target="#example-2-data-in-cashmore.dat">Example 2 Data in cashmore.dat</a></li>
+  </ul></li>
+  <li><a href="#regression-analysis-with-lm" id="toc-regression-analysis-with-lm" class="nav-link" data-scroll-target="#regression-analysis-with-lm">Regression analysis with <code>lm()</code></a>
+  <ul class="collapse">
+  <li><a href="#regression-model-using-lm" id="toc-regression-model-using-lm" class="nav-link" data-scroll-target="#regression-model-using-lm">Regression model using lm</a></li>
+  <li><a href="#draw-the-regression-line" id="toc-draw-the-regression-line" class="nav-link" data-scroll-target="#draw-the-regression-line">Draw the regression line</a></li>
+  <li><a href="#using-the-regression-model-for-prediction" id="toc-using-the-regression-model-for-prediction" class="nav-link" data-scroll-target="#using-the-regression-model-for-prediction">Using the regression model for prediction</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dzvoti/mapsR/edit/main/basic_statistics.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Basic statistics</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="import-custom-functions" class="level2">
+<h2 class="anchored" data-anchor-id="import-custom-functions">Import custom functions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"data/custom_functions/SBStat.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R warm-up, sampling from a remote sensor image and the normal distribution</p>
+</section>
+<section id="import-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-data">Import data</h2>
+<p>First, read the image into a data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dataKenya.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/MSS.dat"</span>,<span class="at">header=</span>T)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dataKenya.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  dn
+1 49
+2 52
+3 52
+4 52
+5 52
+6 52</code></pre>
+</div>
+</div>
+<p>The variable is called <code>"dn"</code>, the values correspond to reflection of visible red light from pixels in a Landsat MSS image of north-west Kenya</p>
+</section>
+<section id="explore-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-data">Explore the data</h2>
+<p>Compute a <code>histogram</code>, <code>boxplot</code> and other summary statistics of the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dataKenya.df)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "dn"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataKenya.df<span class="sc">$</span>dn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(dataKenya.df<span class="sc">$</span>dn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Mean Median Quartile.1 Quartile.3 Variance       SD   Skewness
+[1,] 52.836     57         43         61 131.1566 11.45236 -0.5775254
+     Octile skewness   Kurtosis No. outliers
+[1,]      -0.4666667 -0.9049057            0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(dataKenya.df<span class="sc">$</span>dn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We used the <code>summa()</code> and <code>summaplot()</code> functions from <code>SBStat</code> above. Expand the following boxes to see the code for these functions.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+summa() function
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, sigf) 
+{
+    if (missing(sigf)) {
+        rosig &lt;- F
+    }
+    else {
+        rosig &lt;- T
+    }
+    x &lt;- na.drop(x)
+    Q1 &lt;- quantile(x, prob = 0.25)
+    Q3 &lt;- quantile(x, prob = 0.75)
+    Q2 &lt;- quantile(x, prob = 0.5)
+    hspread &lt;- Q3 - Q1
+    Fu &lt;- Q3 + 3 * hspread
+    Fl &lt;- Q1 - 3 * hspread
+    ols &lt;- which(x &lt; Fl)
+    oll &lt;- which(x &gt; Fu)
+    posols &lt;- which(x &lt; (Q1 - 1.5 * hspread))
+    if (length(posols) == 0) {
+        lw &lt;- min(x)
+    }
+    else {
+        lw &lt;- min(x[-posols])
+    }
+    posoll &lt;- which(x &gt; (Q3 + 1.5 * hspread))
+    if (length(posoll) == 0) {
+        uw &lt;- max(x)
+    }
+    else {
+        uw &lt;- max(x[-posoll])
+    }
+    ol &lt;- c(ols, oll)
+    nol &lt;- length(ol)
+    outp &lt;- matrix(c(mean(x), Q2, Q1, Q3, var(x), sqrt(var(x)), 
+        skew(x), ocskew(x), kurt(x), nol), 1, 10)
+    if (rosig == "TRUE") {
+        outp &lt;- signif(outp, sigf)
+    }
+    colnames(outp) &lt;- c("Mean", "Median", "Quartile.1", "Quartile.3", 
+        "Variance", "SD", "Skewness", "Octile skewness", "Kurtosis", 
+        "No. outliers")
+    return(outp)
+}
+&lt;bytecode: 0x000001b708f8d650&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+summaplot() function
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summaplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, varname) 
+{
+    x &lt;- na.drop(x)
+    if (missing(varname)) {
+        varname &lt;- "x"
+    }
+    Q1 &lt;- quantile(x, prob = 0.25)
+    Q3 &lt;- quantile(x, prob = 0.75)
+    Q2 &lt;- quantile(x, prob = 0.5)
+    hspread &lt;- Q3 - Q1
+    Fu &lt;- Q3 + 3 * hspread
+    Fl &lt;- Q1 - 3 * hspread
+    ols &lt;- which(x &lt; Fl)
+    oll &lt;- which(x &gt; Fu)
+    posols &lt;- which(x &lt; (Q1 - 1.5 * hspread))
+    if (length(posols) == 0) {
+        lw &lt;- min(x)
+    }
+    else {
+        lw &lt;- min(x[-posols])
+    }
+    posoll &lt;- which(x &gt; (Q3 + 1.5 * hspread))
+    if (length(posoll) == 0) {
+        uw &lt;- max(x)
+    }
+    else {
+        uw &lt;- max(x[-posoll])
+    }
+    ol &lt;- c(ols, oll)
+    par(mfrow = c(1, 2))
+    ymax &lt;- max((hist(x, plot = F))$counts)
+    hist(x, main = "", col = "AliceBlue", xlab = varname, ylim = c(0, 
+        (ymax * 1.25)))
+    boxmin &lt;- ymax * 1.1
+    boxmax &lt;- ymax * 1.2
+    boxmid &lt;- ymax * 1.15
+    lines(c(Q1, Q3), c(boxmin, boxmin))
+    lines(c(Q1, Q3), c(boxmax, boxmax))
+    lines(c(Q1, Q1), c(boxmin, boxmax))
+    lines(c(Q3, Q3), c(boxmin, boxmax))
+    lines(c(Q1, lw), c(boxmid, boxmid))
+    lines(c(Q3, uw), c(boxmid, boxmid))
+    lines(c(Q2, Q2), c(boxmin, boxmax), lwd = 2)
+    lines(c(Fu, Fu), c(10, boxmid), lty = 5, col = "red")
+    lines(c(Fl, Fl), c(10, boxmid), lty = 5, col = "red")
+    qqn &lt;- qqnorm(x, main = "", pch = 16)
+    qqline(x)
+    points(qqn$x[ol], qqn$y[ol], pch = 16, col = "red")
+    par(mfrow = c(1, 1))
+}
+&lt;bytecode: 0x000001b70c6f6d58&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="convert-to-a-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="convert-to-a-matrix">Convert to a matrix</h2>
+<p>Now convert the data to a matrix (128 x 128 pixels)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>kenya<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="at">data=</span>dataKenya.df<span class="sc">$</span>dn,<span class="at">nrow=</span><span class="dv">128</span>,<span class="at">ncol=</span><span class="dv">128</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-the-image" class="level2">
+<h2 class="anchored" data-anchor-id="plot-the-image">Plot the image</h2>
+<p>The following command allows you to plot the image</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(kenya)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can you interpret the image and relate it to the histogram of the data?</p>
+</div>
+</div>
+</section>
+<section id="select-a-sample-size" class="level2">
+<h2 class="anchored" data-anchor-id="select-a-sample-size">Select a sample size</h2>
+<p>We now treat the image as a field to be sampled. Select a sample size <code>n</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sample-the-image" class="level2">
+<h2 class="anchored" data-anchor-id="sample-the-image">Sample the image</h2>
+<p>The command <code>SRSimage(n,mat)</code>, from <code>SBStat</code>, will draw a simple random sample of size <code>n</code> from a matrix <code>mat</code>, and draw a map showing the sample locations</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+SRSimage() function
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(SRSimage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (n, mat) 
+{
+    sample &lt;- SRSRect(1, 128, 1, 128, 0, n, mat)
+    return(sample)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw a sample of size n from the image</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sample<span class="ot">&lt;-</span><span class="fu">SRSimage</span>(n,kenya)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a histogram of sample locations</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot summary stats of the data in the sample</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Mean Median Quartile.1 Quartile.3 Variance       SD   Skewness
+[1,] 52.63     57       40.5         61 136.2961 11.67459 -0.4136408
+     Octile skewness  Kurtosis No. outliers
+[1,]      -0.4285714 -1.163071            0</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 2: Compare the sample with the whole image
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compute the mean of the data in your sample, compare it with the mean of the whole image.</p>
+</div>
+</div>
+<p>The <code>multisample()</code> next command (from <code>SBStat</code>) will draw <code>1000</code> samples of size <code>n</code>. It shows the <code>histogram</code> and <code>QQ plot</code> for the 1000 sample means. Expand the following box to see the code for the <code>multisample()</code> function.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+multisample() function
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(multisample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (n, mat) 
+{
+    par(mfrow = c(2, 2))
+    varm &lt;- round(((sd(mat))^2), 2)
+    mmean &lt;- round(mean(mat), 1)
+    lab1 &lt;- paste("Variance =", varm, " mean= ", mmean)
+    hist(mat, main = lab1, xlab = "Raw data values", cex.main = 0.85, 
+        cex.lab = 0.9)
+    qqnorm(mat)
+    mv &lt;- vector("numeric", 1000)
+    for (i in 1:1000) {
+        mv[i] &lt;- mean(SRSimage(n, mat))
+        print(i)
+    }
+    varmean &lt;- round(var(mv), 2)
+    mmean &lt;- round(mean(mv), 1)
+    lab2 &lt;- paste("Variance =", varmean, " mean= ", mmean)
+    lab3 = paste("Means of 1000 samples size =", n)
+    hist(mv, main = lab2, xlab = lab3, cex.main = 0.85, cex.lab = 0.9)
+    qqnorm(mv)
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">multisample</span>(n,kenya)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 3:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Experiment using different sample sizes and answer the following questions.</p>
+<ol type="i">
+<li>What links the variance of the data, the variance of the sample mean and the sample size?</li>
+<li>How does the histogram of the sample means differ from the histogram of the data?</li>
+</ol>
+</div>
+</div>
+<p>Some bits of R code to help with understanding of the normal distribution</p>
+<p><code>pnorm(x,mean,sd)</code> gives the probability of a normal random variable</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pnorm(x,mean,sd)</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">0.0</span>,<span class="fl">0.0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">2</span>,<span class="fl">0.0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9772499</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(<span class="fl">1.96</span>,<span class="fl">0.0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0249979</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 4:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A cider-maker uses a griddle to sort apples, which will remove any with a diameter of less than 4 cm. If apple diameter is normally distributed in a batch, the mean diameter is 7 cm and the standard deviation is 2 cm, what proportion of the batch do you expect to be removed?</p>
+<p>Can you find out (perhaps by trial and error) what griddle size would remove 15% of the apples?</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mu<span class="ot">&lt;-</span><span class="dv">7</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>sd<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>gr<span class="ot">&lt;-</span><span class="dv">4</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># prob that an apple has a diameter &lt;= gr is</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(gr,mu,sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0668072</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="testing-hypotheses-tasting-tea-and-testing-t" class="level2">
+<h2 class="anchored" data-anchor-id="testing-hypotheses-tasting-tea-and-testing-t">Testing hypotheses: tasting tea and testing t</h2>
+<p>Bong beans come in pods of five. Bong wasps lay their single egg in a bong bean. If the probability of a single bean’s being parasitized is 0.1, what is the probability that a randomly selected pod will contain two parasitised beans?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0729</code></pre>
+</div>
+</div>
+<section id="tasting-tea" class="level3">
+<h3 class="anchored" data-anchor-id="tasting-tea">Tasting tea</h3>
+<p>We use the custom Tea_taste function from SBStat. Expand the following box to see the code for the Tea_taste function. :::{.callout-tip collapse=“true”} ## Tea_taste() function</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Tea_taste)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (s, N, p0) 
+{
+    pv &lt;- round((1 - pbinom((s - 1), N, p0)), 3)
+    message("The probability of getting ", s, " or more successes out of ", 
+        N, " trials")
+    message("where the probability of success in a single trial is ", 
+        p0)
+    if (pv &gt;= 0.001) {
+        message("is ", pv)
+    }
+    else {
+        message("is &lt; 0.001")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="dv">20</span> <span class="co"># number of trials</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="dv">15</span> <span class="co"># number of successes</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>p0<span class="ot">&lt;-</span><span class="fl">0.5</span> <span class="co"># probability of a success under the null hypothesis</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Tea_taste</span>(s,N,p0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The probability of getting 15 or more successes out of 20 trials</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>where the probability of success in a single trial is 0.5</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>is 0.021</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you ran an experiment with 40 trials, and had 30 successes, do you think that the evidence against the null hypothesis will be the same (given that the proportion of successes is the same?) Use Tea_taste to find out whether you are right</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="dv">40</span> <span class="co"># number of trials</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="dv">30</span> <span class="co"># number of successes</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>p0<span class="ot">&lt;-</span><span class="fl">0.5</span> <span class="co"># probability of a success under the null hypothesis</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Tea_taste</span>(s,N,p0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The probability of getting 30 or more successes out of 40 trials</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>where the probability of success in a single trial is 0.5</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>is 0.001</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A device has been invented to detect oestrous in dairy cattle. In a trial with 50 cows, all of which were known to be in oestrus, 35 were identified as such by the device.</p>
+<ol type="i">
+<li>State a null hypothesis,</li>
+<li>and test it using the <code>Tea_taste</code> function.</li>
+<li>Does this show that the device might be useful for dairy farmers?</li>
+</ol>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<dl>
+<dt>H0 OVUTECH is equivalent to random guesswork.</dt>
+<dd>
+its output is like tossing a coin
+</dd>
+</dl>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Tea_taste</span>(<span class="dv">35</span>,<span class="dv">50</span>,<span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The probability of getting 35 or more successes out of 50 trials</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>where the probability of success in a single trial is 0.5</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>is 0.003</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="t-tests-to-compare-independent-samples" class="level2">
+<h2 class="anchored" data-anchor-id="t-tests-to-compare-independent-samples">t-tests to compare independent samples</h2>
+<p>We use the custom <code>T_test()</code> function from SBStat. Expand the following box to see the code for the <code>T_test()</code> function.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+T_test() function
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(T_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (variable, groups, data) 
+{
+    TEST &lt;- t.test(data[, variable] ~ data[, groups], var.equal = T)
+    message("\n t-test to compare independent random samples from two groups\n ")
+    resids &lt;- (lm(data[, variable] ~ data[, groups]))$residuals
+    par(mfrow = c(1, 2))
+    boxplot(data[, variable] ~ data[, groups], ylab = variable, 
+        xlab = groups)
+    mtext("Boxplot of values within groups", side = 3, adj = 0, 
+        line = 1)
+    histplot(resids, "Residuals")
+    mtext("Histogram and boxplot of residuals", side = 3, adj = 0, 
+        line = 1)
+    message("Estimated group means")
+    print(signif(TEST$estimate, digits = 5))
+    message("\n Difference between group means is ", signif(as.numeric(TEST$estimate[1] - 
+        TEST$estimate[2]), digits = 4))
+    message("\n 95% confidence interval for this difference is ", 
+        signif(as.numeric(TEST$conf.int[1]), digits = 4), " to ", 
+        signif(as.numeric(TEST$conf.int[2]), digits = 4))
+    message("\n The t-statistic is ", signif(TEST$statistic, 
+        digits = 5), " with ", signif(TEST$parameter, digits = 5), 
+        " degrees of freedom")
+    message("\n The probability of obtaining evidence this strong or stronger")
+    message(" if the true difference is zero is ", signif(TEST$p.value, 
+        digits = 5))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/chicks.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors =</span> T)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Weight.gain" "Feed"       </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">T_test</span>(<span class="at">variable=</span><span class="st">"Weight.gain"</span>,<span class="at">groups=</span><span class="st">"Feed"</span>,<span class="at">data=</span>data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ t-test to compare independent random samples from two groups
+ </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Estimated group means</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> mean in group casein mean in group soybean 
+               323.58                246.43 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ Difference between group means is 77.15</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ 95% confidence interval for this difference is 29.19 to 125.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ The t-statistic is 3.3199 with 24 degrees of freedom</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ The probability of obtaining evidence this strong or stronger</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> if the true difference is zero is 0.0028692</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The rate of carbon dioxide emission was measured by incubation of soil cores collected from randomly located selections in a region of Bedfordshire from either arable land or grassland</p>
+<p>Test for evidence of a difference between these land uses. - Data: <code>CO2.dat</code>, - <code>land use (arable or grass)</code> and - <code>CO2 emission (micro g C per kg soil per day)</code></p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/CO2.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors =</span> T)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "LandUse" "CO2"    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">T_test</span>(<span class="at">variable=</span><span class="st">"CO2"</span>,<span class="at">groups=</span><span class="st">"LandUse"</span>,<span class="at">data=</span>data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ t-test to compare independent random samples from two groups
+ </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Estimated group means</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mean in group Arable  mean in group Grass 
+              7931.3              18076.0 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ Difference between group means is -10140</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ 95% confidence interval for this difference is -14920 to -5365</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ The t-statistic is -4.4596 with 18 degrees of freedom</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+ The probability of obtaining evidence this strong or stronger</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> if the true difference is zero is 0.00030286</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="analysis-of-variance-with-lm" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-of-variance-with-lm">Analysis of variance with <code>lm()</code></h2>
+<section id="example-1.-data-in-cabbage.dat" class="level3">
+<h3 class="anchored" data-anchor-id="example-1.-data-in-cabbage.dat">Example 1. Data in cabbage.dat</h3>
+<p>Yields of spring cabbage from plots to which one of four treatments was applied. The allocation of treatments to plots was done at random. Treatments are:</p>
+<ul>
+<li><code>C</code>: Control, no nitrogen applied.</li>
+<li><code>AS</code>: Nitrogen applied as ammonium sulphate</li>
+<li><code>AN</code>: Nitrogen applied as ammonium nitrate</li>
+<li><code>NC</code>: Nitrogen applied as nitrochalk (ammonium nitrate + chalk)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/cabbage.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors =</span> T)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore data</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data_ca.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Treatment" "Yield"    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (i)  Initial model fit</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(Yield<span class="sc">~</span>Treatment,<span class="at">data=</span>data_ca.df)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(Yield)<span class="sc">~</span>Treatment,<span class="at">data=</span>data_ca.df)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (ii) Inspect the residuals </span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Mean       Median  Quartile.1 Quartile.3   Variance         SD
+[1,] 3.252607e-18 -0.008836858 -0.02960795 0.04914689 0.00412858 0.06425403
+       Skewness Octile skewness  Kurtosis No. outliers
+[1,] -0.2250617     -0.02602487 -1.170367            0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod<span class="sc">$</span>fitted.values,mod<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (iii)  Test the general or omnibus null hypothesis</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: log(Yield)
+          Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    
+Treatment  3 0.94845 0.316150  61.261 1.513e-07 ***
+Residuals 12 0.06193 0.005161                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Yield<span class="sc">~</span>Treatment,<span class="at">data=</span>data_ca.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-23-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make contrast coefficients</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C1<span class="ot">&lt;-</span><span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C1[<span class="fu">which</span>(data_ca.df<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"C"</span>)]<span class="ot">&lt;-</span><span class="dv">3</span></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C2<span class="ot">&lt;-</span><span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C2[<span class="fu">which</span>(data_ca.df<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"C"</span>)]<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C2[<span class="fu">which</span>(data_ca.df<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"AS"</span>)]<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C3<span class="ot">&lt;-</span><span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C3[<span class="fu">which</span>(data_ca.df<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"C"</span>)]<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C3[<span class="fu">which</span>(data_ca.df<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"AS"</span>)]<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>data_ca.df<span class="sc">$</span>C3[<span class="fu">which</span>(data_ca.df<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">"NC"</span>)]<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(Yield)<span class="sc">~</span>Treatment,<span class="at">data=</span>data_ca.df)</span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a>mod2<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(Yield)<span class="sc">~</span>C1<span class="sc">+</span>C2<span class="sc">+</span>C3,<span class="at">data=</span>data_ca.df)</span>
+<span id="cb83-17"><a href="#cb83-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-18"><a href="#cb83-18" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: log(Yield)
+          Df  Sum Sq  Mean Sq F value    Pr(&gt;F)    
+Treatment  3 0.94845 0.316150  61.261 1.513e-07 ***
+Residuals 12 0.06193 0.005161                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: log(Yield)
+          Df  Sum Sq Mean Sq  F value  Pr(&gt;F)    
+C1         1 0.92682 0.92682 179.5913 1.4e-08 ***
+C2         1 0.01147 0.01147   2.2234  0.1617    
+C3         1 0.01015 0.01015   1.9677  0.1860    
+Residuals 12 0.06193 0.00516                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="example-2-data-in-cashmore.dat" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-data-in-cashmore.dat">Example 2 Data in cashmore.dat</h3>
+<p>These are data on soil properties from sites in different soil series or classes (the variable <code>"Soil_Series"</code>, which is read in as a factor).</p>
+<p>Use the <code>LM</code> and <code>ANOVA</code> to examine evidence that differences between the soil series account for variation in water content (<code>GWC_T</code>, <code>GWC_S</code>) and <code>OM</code> content.</p>
+<p>The soil series are quite distinct, note the following information about them</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Series Name</th>
+<th>Symbol</th>
+<th>Parent</th>
+<th>material</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lowlands</td>
+<td>Lw</td>
+<td>Lower Greensand</td>
+<td>Colluvial*</td>
+</tr>
+<tr class="even">
+<td>Hallsworth</td>
+<td>Ha</td>
+<td>Lower Greensand</td>
+<td>Pelostagnogley**</td>
+</tr>
+<tr class="odd">
+<td>Nercwys</td>
+<td>Ne</td>
+<td>Lower Greensand</td>
+<td>Stagnogley**</td>
+</tr>
+<tr class="even">
+<td>Evesham</td>
+<td>Ev</td>
+<td>Gault Clay</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Bardsey</td>
+<td>Ba</td>
+<td>Gault Clay</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Enborne</td>
+<td>En</td>
+<td>Alluvial Clay</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The colluvial soil is relatively coarse material over the LGS</li>
+<li>The stagnogleys are finer material, drainage is impeded.</li>
+<li>In the pelostagnogley the finer minerals are prone to swell when wet and shrink and crack when dry.</li>
+<li>The Evesham series is formed in heavy clay, the Bardsey series and</li>
+<li>Enborne series are both sandy clay loams over clay loams.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>data_csh.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/cashmore.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data_csh.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "GWC_T"       "GWC_S"       "pH_T"        "pH_S"        "OM_T"       
+[6] "OM_S"        "Soil_Series"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(GWC_S)<span class="sc">~</span>Soil_Series,<span class="at">data=</span>data_csh.df)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Mean      Median  Quartile.1 Quartile.3    Variance       SD
+[1,] -6.919243e-18 -0.01001593 -0.06312576 0.04554943 0.008789249 0.093751
+     Skewness Octile skewness Kurtosis No. outliers
+[1,] 1.459066    -0.009520071 3.972526            1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod<span class="sc">$</span>fitted.values,mod<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: log(GWC_S)
+            Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+Soil_Series  5 1.73206 0.34641  37.422 &lt; 2.2e-16 ***
+Residuals   94 0.87014 0.00926                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(GWC_T<span class="sc">~</span>Soil_Series,<span class="at">data=</span>data_csh.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-24-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(OM_T<span class="sc">~</span>Soil_Series,<span class="at">data=</span>data_csh.df)</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Mean      Median Quartile.1 Quartile.3  Variance        SD
+[1,] 2.068549e-17 -0.04007519 -0.4489706  0.3897472 0.6811274 0.8253044
+      Skewness Octile skewness Kurtosis No. outliers
+[1,] 0.4573979       0.1044714 1.081736            1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-24-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod<span class="sc">$</span>fitted.values,mod<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-24-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: OM_T
+            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+Soil_Series  5 21.213  4.2426  5.9142 8.497e-05 ***
+Residuals   94 67.432  0.7174                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(OM_T<span class="sc">~</span>Soil_Series,<span class="at">data=</span>data_csh.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-24-6.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="regression-analysis-with-lm" class="level2">
+<h2 class="anchored" data-anchor-id="regression-analysis-with-lm">Regression analysis with <code>lm()</code></h2>
+<p>Example 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/soil.dat"</span>,<span class="at">header=</span>T)</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "clay"   "SOC"    "pHw"    "pHCaCl"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot pH in CaCl2 against pH in water</span></span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data.df<span class="sc">$</span>pHCaCl,<span class="at">pch=</span><span class="dv">16</span>,data.df<span class="sc">$</span>pHw,<span class="at">xlab=</span><span class="st">"pH in CaCl2"</span>,<span class="at">ylab=</span><span class="st">"pH in water"</span>,</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">8.5</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">8.5</span>))</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Draw the bisector, or 1:1 line</span></span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">8.5</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">8.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute the correlation coefficient between the two variables</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data.df<span class="sc">$</span>pHCaCl,data.df<span class="sc">$</span>pHw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9788838</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What do you conclude about the relationship between the methods for measuring <code>pH</code>, just from the plot?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="regression-model-using-lm" class="level3">
+<h3 class="anchored" data-anchor-id="regression-model-using-lm">Regression model using lm</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(pHw<span class="sc">~</span>pHCaCl,<span class="at">data=</span>data.df)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = pHw ~ pHCaCl, data = data.df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.0231 -0.1284  0.0251  0.1465  0.6679 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.83364    0.10595   7.869 9.09e-13 ***
+pHCaCl       0.94646    0.01676  56.457  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2522 on 139 degrees of freedom
+Multiple R-squared:  0.9582,    Adjusted R-squared:  0.9579 
+F-statistic:  3187 on 1 and 139 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumptions</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Mean     Median Quartile.1 Quartile.3   Variance        SD
+[1,] 1.963886e-17 0.02509984 -0.1284438  0.1465173 0.06314678 0.2512902
+       Skewness Octile skewness Kurtosis No. outliers
+[1,] -0.8745355      -0.1175253 2.275353            1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod<span class="sc">$</span>fitted,mod<span class="sc">$</span>residuals,<span class="at">xlab=</span><span class="st">"Fitted values"</span>,<span class="at">ylab=</span><span class="st">"Residuals"</span>,<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What is the evidence provided from the model about the relationship?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</section>
+<section id="draw-the-regression-line" class="level3">
+<h3 class="anchored" data-anchor-id="draw-the-regression-line">Draw the regression line</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co">#First, replot the data</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data.df<span class="sc">$</span>pHCaCl,data.df<span class="sc">$</span>pHw,<span class="at">pch=</span><span class="dv">16</span>,<span class="at">xlab=</span><span class="st">"pH in CaCl2"</span>,<span class="at">ylab=</span><span class="st">"pH in water"</span>,</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">8.5</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">8.5</span>))</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, chose a minimum and maximum x value for the line</span></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>minx<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>maxx<span class="ot">&lt;-</span><span class="fl">8.5</span></span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a><span class="fu">regline</span>(minx,maxx,mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="using-the-regression-model-for-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="using-the-regression-model-for-prediction">Using the regression model for prediction</h3>
+<p>Now predict the <code>pH</code> in water for some values in <code>CaCl</code> (these would be new samples for which we only know <code>pHCaCl</code>).</p>
+<p>values for prediction: we present a set of 5 values <code>4.2</code>,<code>5.6</code>,<code>6.4</code>,<code>7.3</code>,<code>8.1</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a vector of the values for prediction</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>pHCaCl<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">4.2</span>,<span class="fl">5.6</span>,<span class="fl">6.4</span>,<span class="fl">7.3</span>,<span class="fl">8.1</span>)</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a><span class="co"># make a dataframe from these values</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>pHCaCl.df<span class="ot">&lt;-</span><span class="fu">data.frame</span>(pHCaCl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Give the column in the data frame the same name as the same variable in the data frame we used for the regression.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pHCaCl.df)<span class="ot">&lt;-</span><span class="st">"pHCaCl"</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "clay"   "SOC"    "pHw"    "pHCaCl"</code></pre>
+</div>
+</div>
+<p>Now make the predictions, the first term is the model object, the second is the data frame with the pH in CaCl2 values for which we want predictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>pHwaterpred<span class="ot">&lt;-</span><span class="fu">predict</span>(mod,pHCaCl.df,</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="at">interval=</span><span class="st">"prediction"</span>,<span class="at">level=</span><span class="fl">0.95</span>)</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pHwaterpred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 4.808759 4.304030 5.313489
+2 6.133798 5.633020 6.634577
+3 6.890963 6.390521 7.391406
+4 7.742774 7.241032 8.244516
+5 8.499939 7.995562 9.004316</code></pre>
+</div>
+</div>
+<p>The first column is the prediction, the second two are the upper and lower bounds of each 95% confidence interval for a point prediction. Note that this is the confidence interval for a point prediction (i.e.&nbsp;a new single measurement).</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The file <code>cashmore.dat</code>, contains data on a number of soil properties measured at 100 sample sites in an experimental field. These include Gravimetric Water Content in the topsoil (<code>GWC_T</code>) and in the subsoil (<code>GWC_S</code>). It is easier to sample the topsoil than the subsoil.</p>
+<ol type="i">
+<li>Use regression analysis to test whether subsoil water content can be predicted from topsoil water content.<br>
+</li>
+<li>Find the predicted subsoil water content for soils where the topsoil water content is 20, 25 and 30%.</li>
+<li>Use regression analysis to test whether subsoil organic matter content can be predicted from topsoil water content. Find the predicted subsoil <code>OM</code> content for soils where the topsoil <code>OM</code> content is 1.5%, 2.5% and 3.5%.</li>
+</ol>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"data/cashmore.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "GWC_T"       "GWC_S"       "pH_T"        "pH_S"        "OM_T"       
+[6] "OM_S"        "Soil_Series"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data.df<span class="sc">$</span>GWC_T,data.df<span class="sc">$</span>GWC_S,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">35</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">35</span>),<span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">35</span>),<span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">35</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>mod<span class="ot">&lt;-</span><span class="fu">lm</span>(GWC_S<span class="sc">~</span>GWC_T,<span class="at">data=</span>data.df)</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summa</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Mean    Median Quartile.1 Quartile.3 Variance       SD  Skewness
+[1,] -9.748604e-17 0.0966397  -1.375726   1.061659 3.401231 1.844243 0.7194464
+     Octile skewness Kurtosis No. outliers
+[1,]      -0.1683149 1.718784            0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(mod<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-31-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mod<span class="sc">$</span>fitted.values,mod<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="basic_statistics_files/figure-html/unnamed-chunk-31-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = GWC_S ~ GWC_T, data = data.df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.7006 -1.3757  0.0966  1.0617  7.0691 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.52161    1.20180   0.434    0.665    
+GWC_T        0.84365    0.05331  15.826   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.854 on 98 degrees of freedom
+Multiple R-squared:  0.7188,    Adjusted R-squared:  0.7159 
+F-statistic: 250.5 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>GWC.T<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>)</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>GWC.T.df<span class="ot">&lt;-</span><span class="fu">data.frame</span>(GWC.T)</span>
+<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(GWC.T.df)<span class="ot">&lt;-</span><span class="st">"GWC_T"</span></span>
+<span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a>GWC.S.Pre<span class="ot">&lt;-</span><span class="fu">predict</span>(mod,GWC.T.df,<span class="at">interval=</span><span class="st">"prediction"</span>,<span class="at">level=</span><span class="fl">0.95</span>)</span>
+<span id="cb129-6"><a href="#cb129-6" aria-hidden="true" tabindex="-1"></a>GWC.S.Pre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 17.39469 13.69005 21.09932
+2 21.61296 17.90492 25.32099
+3 25.83123 22.04517 29.61728</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./data_visualisation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Visualisation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./jura.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Basic Statistics: Jura</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
