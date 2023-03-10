@@ -1,0 +1,272 @@
+
+# Data Types 
+
+**Preamble: Objects and object names in R**
+
+-  Data are objects in R
+-  Data objects are assigned names
+-  We manipulate named objects in R
+
+## Introduction
+
+The objective of this section is to provide information on the topic under consideration, along with examples and exercises.  You should be able to work through it in R or R studio.  This particular section requires no additional functions or packages to be loaded.
+
+The specific objective of the material in this section is to introduce you to the principal data types and data structures in R.  By the end you should have a better understanding of the R scripts, and should be better-placed to start developing and editing scripts yourself.  The particular topics we shall cover are:
+
+1) Basic data types in R: numeric, character, and logical
+1) Data structures:  vectors.  
+1) Factors
+1) Data structures: Matrices, making matrices, matrix operations
+1) Data structures: Dataframes
+1) Data structures: Lists 
+
+
+The principal data types in R are `numeric`, `character`, `factor` and `logical`. There are others, but these are the main ones.
+
+-  A datum of type `numeric` is a numerical value, such as a soil pH value.
+-  A datum of type `character` is a string of characters, such as the name of an experiment.
+-  A datum of type `factor` is the label for a set of treatments or categories which we might use in an analysis of variance.  
+-  A datum of type `logical` takes values `TRUE` or `FALSE`
+
+## Numeric data
+
+### Scalar:
+
+Before going into details of data types, we introduce the simplest data type in R, the scalar.  A scalar is a single value of some variable, e.g. the value `42`, or the name `"Bert"`.
+
+We can make a simple scalar value using the `<-` "assign" arrow in R. Assignment is simply the association of a `name (mass)` with an `object (the value 1000)`.
+
+```{r}
+mass<-1000
+```
+
+This is a numeric scalar value. We can then use the print command to see the value of the scalar
+
+```{r}
+print(mass)
+```
+We can then do simple mathematical manipulations with a numeric scalar value. 
+For example, the following will convert the mass, if this is in grams, to
+kg
+
+```{r}
+mass_kg <- mass/1000
+```
+so you can see that the back-slash `/` denotes division of the value to the left by
+the value to the right.  As in most computer languages `*` denotes multiply, so
+to convert `mass` to milligrams we would do the following
+
+```{r}
+mass_mg<-mass*1000
+```
+
+
+:::{.callout-note}
+## Exercise 
+Create a scalar value which is your age at last birthday then, assuming that
+there are 52 weeks in each year, calculate your age in weeks and assign this value
+to a scalar called `my_age`
+:::
+
+
+Here are some simple operations which we can perform on a numeric scalar in R using
+inbuilt functions
+
+### Square root
+```{r}
+sroot_mass<-sqrt(mass)
+```
+### Logarithm (natural or Napierian logarithm to base e)
+```{r}
+log_mass<-log(mass)
+```
+
+### Raising to a power
+```{r}
+mass_squared<-mass^2
+```
+
+
+:::{.callout-warning}
+## Error Alert: 
+Run the commands below with one parenthesis removed and see what happens
+
+```{r eval=FALSE}
+sroot_mass<-sqrt(mass
+```
+:::
+
+:::{.callout-note}
+## Exercise: Operator precedence
+(i)  You may recall from school that, when faced with a string of operations, e.g you do the operations in a certain order, completing calculations inside brackets first. R follows a standard order of precedence in operations.  Using the rules from school work out the correct answer to the expression above, and then assign its value in R to a new numeric scalar, and see if you were correct.  
+```{r}
+10-4*(2+1)
+```
+(ii)  Work out the order of precedence in R for `^`,` -`, `+`, `*` by examining the values 
+assigned to numeric scalars by the following
+
+```{r}
+1+2*3
+3*2^2
+3*2^3-1
+```
+:::
+
+## Character data
+
+A `character` scalar is just a string of characters, for example, the name of a treatment
+
+```{r}
+tname<-"Mulched"
+```
+
+:::{.callout-note}
+Note that the character string in the assignment is put inside double quotes.  See what happens if you run the command above, but with the quotes removed.
+:::
+
+It can be useful to use character scalars, as they can appear in commands such as those for data plots, and you can assign the value once, so, for example, the following commands would create a pane of three graphs based on two variables, (here on some random data). In each plot command (`"plot"` and `"hist"`) `"xlab= "` specifies the name on the x-axis label, and similarly `"ylab="` for the y-axis. One can put the label name in directly here, `xlab="pH"`, for example, but we can also put a character scalar here which has been given a value elswhere e.g.:
+
+```{r}
+#Assign variable names
+xname<-"pH"
+yname<-"SOC"
+#Create a pane of four plots
+par(mfrow=c(2,2))
+#Create some random data
+x<-runif(100,4,8)
+y<-rnorm(100,4,0.5)
+#Create the plots
+hist(x,xlab=xname,main="Histogram")
+hist(y,xlab=yname,main="Histogram")
+plot(x,y,xlab=xname,ylab=yname,pch=16,main="Scatterplot")
+```
+
+If you were using the script to produce such plots from various variables you can see how using a character scalar saves you from having to type the same variable name into the function for each plot. Changing it once at the top ensures that you get the correct name in each case.
+
+Using `"paste"` to combine character variables.
+
+Imagine that I had a character scalar that denotes the block to which an experimental
+plot belongs in a RCBD experiment, and another one that denotes the treatment:
+
+```{r}
+block<-"Block1"
+treatment<-"CA"
+```
+
+I can make a plot name by combining these two using paste.  The `"sep"` term allows
+me to specify the separator between the two scalars:
+
+```{r}
+plot_lab<-paste(block,treatment,sep="_")
+print(plot_lab)
+```
+
+:::{.callout-note}	
+## EXERCISE (by yourself) 
+Create a character scalar that includes your name and then use paste to join thiswith your age in weeks(as computed in the section on numeric data types).
+:::
+
+## Logical data
+
+A logical scalar takes the value `TRUE` or `FALSE`.  An `R` command which states some relation between two variables will have a logical value.  For example, let us create two numeric scalars
+
+```{r}
+three<-3
+five<-5
+```
+
+Now the R statement (`three < five`) will take the value `TRUE`, because the value of `"three"` is  less than the value of `"five"`, so
+
+```{r}
+three_lt_five<-(three < five)
+print(three_lt_five)
+```
+
+the command below will show that it is not the case that `three<three` 
+```{r}
+three_lt_three<-(three < three)
+print(three_lt_three)
+```
+
+but `<=` (less than or equal to) gives us a different outcome 
+
+```{r}
+three_le_three<-(three <= three)
+print(three_le_three)
+```
+
+Some other useful "logical connectives" are `==` for `"equal to"` and `!=` for `"not equal to"`
+and, of course, `>` for `"greater than"` and `>=` for "greater than or equal to".
+
+:::{.callout-warning}
+Note that `==` is used for `"equal to"`, a single `=` will allocate the value of the scalar on the 
+left to that on the right.
+:::
+	
+
+	
+:::{.callout-note}
+## Exercise 
+Satisfy yourself that the set of connectives described above behave as they do, using the scalars three and five above, and others of your creation.
+:::
+
+
+	
+Logical variables can be the subject of logical functions, notably `"if`  .. `then"`
+Consider the example below
+
+```{r}
+soil_pH <- 4
+
+if(soil_pH < 5.5) {
+    management_option <- "Lime"
+    }else{
+        management_option<-"No_lime"
+        }
+```
+In the script above if `soil_pH` is less than `5.5` then the scalar `management_option` will be given the character value `"Lime"`, otherwise it will be given the value `"No_lime"`.	
+	
+```{r}
+time <- 12.00
+if(time < 12) {
+    learning <- "continue" 
+    }else{
+        learning_option <- "take a break"
+        }
+```
+In the script above if time is less than `12.00` then the scalar learning option will be given the character value `"continue"`, otherwise it will be given the value `"take a break"`.
+
+A logical variable can be defined on the basis of more than one logical condition, this can 
+be done using the conditionals  `&` for `"and"`, `|` for `"or"` .`&&` and `||` are sometimes appliedto vectors of logical variables.  Here is an example.  We define three numeric scalars `sand`, `silt` and `clay` as the percent by mass of sand, silt and clay-sized particles in soil.
+
+```{r}
+sand <- 10
+silt <- 20
+clay <- 70
+```
+
+first, check that the values are consistent
+
+```{r}
+consistent_particle_size <- ((sand + silt + clay) == 100)
+print(consistent_particle_size)
+```
+
+The USDA soil texture class Clay contains soils with more than 40% clay AND less than 40% silt and less than 45% sand,  so we can determine whether or not our soil belongs to class clay as follows
+
+```{r}
+is_clay <- (clay>40) | (silt<=40) | (sand<=45)
+print(is_clay)
+```
+
+
+:::{.callout-note}
+## Exercise
+(i) try the commands out with some different (consistent) particle size values.
+(ii) modify the commands above so as to compute a logical variable is_silty_clay.  In the
+USDA texture triangle a soil is silty clay if the clay content is greater than 40% AND the
+silt content is greater than 40%: 
+
+:::
+	
+
