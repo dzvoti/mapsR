@@ -1,0 +1,15 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Quarto book files
+/.quarto/
+_book
+_site
+
+# Files in excluded directories
+exclude
+scripts
+presentations
+data
