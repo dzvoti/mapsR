@@ -1,0 +1,500 @@
+# Basic statistics
+
+## Import custom functions
+
+
+```{r eval=TRUE}
+source("data/custom_functions/SBStat.R")
+```
+R warm-up, sampling from a remote sensor image and the normal distribution
+
+## Import data
+First, read the image into a data frame.
+
+```{r eval=TRUE}
+dataKenya.df<-read.table("data/MSS.dat",header=T)
+head(dataKenya.df)
+```
+
+The variable is called `"dn"`, the values correspond to reflection of visible red light from pixels in a Landsat MSS image of north-west Kenya
+
+## Explore the data
+Compute a `histogram`, `boxplot` and other summary statistics of the data
+
+```{r eval=TRUE}
+names(dataKenya.df)    
+
+hist(dataKenya.df$dn)
+summa(dataKenya.df$dn)
+summaplot(dataKenya.df$dn)
+```
+We used the `summa()` and `summaplot()` functions from `SBStat` above. Expand the following boxes to see the code for these functions.
+
+:::{.callout-tip collapse="true"}
+## summa() function
+```{r eval=TRUE}
+print(summa)
+```
+:::
+
+:::{.callout-tip collapse="true"}
+## summaplot() function
+```{r eval=TRUE}
+print(summaplot)
+```
+:::
+
+## Convert to a matrix
+Now convert the data to a matrix (128 x 128 pixels)
+
+```{r eval=TRUE}
+kenya<-matrix(data=dataKenya.df$dn,nrow=128,ncol=128)
+```   
+
+## Plot the image
+The following command allows you to plot the image
+
+```{r eval=TRUE}  
+image(kenya)
+```
+
+:::{.callout-note}
+## Exercise 1
+Can you interpret the image and relate it to the histogram of the data?    
+:::
+
+## Select a sample size
+We now treat the image as a field to be sampled. Select a sample size `n`  
+
+```{r eval=TRUE}
+n<-100
+```
+
+## Sample the image
+The command `SRSimage(n,mat)`, from `SBStat`, will draw a simple random sample of size `n` from a matrix `mat`, and draw a map showing the sample locations
+
+:::{.callout-tip collapse="true"}
+## SRSimage() function
+```{r eval=TRUE}
+print(SRSimage)
+```
+:::
+
+```{r eval=TRUE}
+# Draw a sample of size n from the image
+sample<-SRSimage(n,kenya)
+
+# Plot a histogram of sample locations
+hist(sample)
+
+# Plot summary stats of the data in the sample
+summa(sample)
+```
+
+:::{.callout-note}
+## Exercise 2: Compare the sample with the whole image
+Compute the mean of the data in your sample, compare it with the mean of the whole image.
+:::
+
+The `multisample()` next command (from `SBStat`) will draw `1000` samples of size `n`.  It shows the `histogram` and `QQ plot` for the 1000 sample means. Expand the following box to see the code for the `multisample()` function.
+
+:::{.callout-tip collapse="true"}
+## multisample() function
+```{r eval=TRUE}
+print(multisample)
+```
+:::
+
+```{r eval=FALSE}
+multisample(n,kenya)
+```
+
+:::{.callout-note}
+## Exercise 3: 
+Experiment using different sample sizes and answer the following questions.
+
+i) What links the variance of the data, the variance of the sample mean and the sample size?
+i) How does the histogram of the sample means differ from the histogram of the data? 
+:::
+
+   
+Some bits of R code to help with understanding of the normal distribution
+
+`pnorm(x,mean,sd)` gives the probability of a normal random variable
+
+```{r eval=TRUE}
+# pnorm(x,mean,sd)
+ 
+pnorm(0.0,0.0,1)
+
+pnorm(2,0.0,1)
+    
+1-pnorm(1.96,0.0,1)
+```
+
+:::{.callout-note}
+## Exercise 4:
+A cider-maker uses a griddle to sort apples, which will remove any with a diameter of less than 4 cm.  If apple diameter is normally distributed in a batch, the mean diameter is 7 cm and the standard deviation is 2 cm, what proportion of the batch do you expect to be removed? 
+
+Can you find out (perhaps by trial and error) what griddle size would remove 15% of the apples?
+
+:::{.callout-tip collapse="true"}
+## Solution
+```{r eval=TRUE}
+mu<-7
+sd<-2
+gr<-4
+    
+# prob that an apple has a diameter <= gr is
+    
+pnorm(gr,mu,sd)
+```   
+:::
+:::
+
+## Testing hypotheses: tasting tea and testing t  
+
+Bong beans come in pods of five.  Bong wasps lay their single egg in a bong bean.  If the probability of a single bean's being parasitized is 0.1, what is the probability that a randomly selected pod will contain two parasitised beans?
+
+```{r eval=TRUE}
+dbinom(2,5,0.1)
+```
+
+### Tasting tea
+
+We use the custom Tea_taste function from SBStat. Expand the following box to see the code for the Tea_taste function.
+:::{.callout-tip collapse="true"}
+## Tea_taste() function
+```{r eval=TRUE}
+print(Tea_taste)
+```
+
+```{r eval=TRUE}
+N<-20 # number of trials
+s<-15 # number of successes
+p0<-0.5 # probability of a success under the null hypothesis
+
+Tea_taste(s,N,p0)
+```
+
+:::{.callout-note}
+## Exercise 5
+If you ran an experiment with 40 trials, and had 30 successes, do you think that the evidence against the null hypothesis will be the same (given that the proportion of successes is the same?)  Use Tea_taste to find out whether you are right
+
+:::{.callout-tip collapse="true"}
+## Solution
+```{r eval=TRUE}
+N<-40 # number of trials
+s<-30 # number of successes
+p0<-0.5 # probability of a success under the null hypothesis
+
+Tea_taste(s,N,p0)
+```
+:::
+:::
+
+  
+:::{.callout-note}
+## Exercise 6
+A device has been invented to detect oestrous in dairy cattle.  In a trial with 50 cows, all of which were known to be in oestrus, 35 were identified as such by the device.  
+
+i)  State a null hypothesis, 
+ii) and test it using the `Tea_taste` function.
+ii)  Does this show that the device might be useful for dairy farmers?
+
+
+:::{.callout-tip collapse="true"}
+## Solution 
+H0 OVUTECH is equivalent to random guesswork.
+~ its output is like tossing a coin  
+
+```{r eval=TRUE} 
+Tea_taste(35,50,0.5)
+``` 
+:::
+:::
+
+## t-tests to compare independent samples
+
+We use the custom `T_test()` function from SBStat. Expand the following box to see the code for the `T_test()` function.
+
+:::{.callout-tip collapse="true"}
+## T_test() function
+```{r eval=TRUE}
+print(T_test)
+```
+:::
+
+```{r eval=TRUE}
+data.df<-read.table("data/chicks.dat",header=T,stringsAsFactors = T)
+
+names(data.df)
+
+T_test(variable="Weight.gain",groups="Feed",data=data.df)
+```
+
+:::{.callout-note}
+## Exercise 7
+The rate of carbon dioxide emission was measured by incubation of soil cores collected from randomly located selections in a region of Bedfordshire from either arable land or grassland 
+
+Test for evidence of a difference between these land uses.
+-  Data: `CO2.dat`, 
+-  `land use (arable or grass)` and 
+-  `CO2 emission (micro g C per kg soil per day)`
+
+:::{.callout-tip collapse="true"}
+## Solution
+```{r eval=TRUE}
+data.df<-read.table("data/CO2.dat",header=T,stringsAsFactors = T)
+
+names(data.df)
+
+T_test(variable="CO2",groups="LandUse",data=data.df)
+```
+:::
+:::
+
+## Analysis of variance with `lm()`  
+
+### Example 1.  Data in cabbage.dat
+
+Yields of spring cabbage from plots to which one of four treatments was applied.  The allocation of treatments to plots was done at random.  Treatments are:
+
+-  `C`: Control, no nitrogen applied.
+-  `AS`: Nitrogen applied as ammonium sulphate
+-  `AN`: Nitrogen applied as ammonium nitrate
+-  `NC`: Nitrogen applied as nitrochalk (ammonium nitrate + chalk)
+ 
+```{r eval=TRUE}
+# Import data
+data_ca.df<-read.table("data/cabbage.dat",header=T,stringsAsFactors = T)
+
+# Explore data
+names(data_ca.df)
+
+# (i)  Initial model fit
+mod<-lm(Yield~Treatment,data=data_ca.df)
+mod<-lm(log(Yield)~Treatment,data=data_ca.df)
+
+# (ii) Inspect the residuals 
+summa(mod$residuals)
+summaplot(mod$residuals)
+plot(mod$fitted.values,mod$residuals,pch=16)
+# (iii)  Test the general or omnibus null hypothesis
+
+anova(mod)
+
+
+boxplot(Yield~Treatment,data=data_ca.df)
+
+
+# Make contrast coefficients
+
+data_ca.df$C1<--1
+data_ca.df$C1[which(data_ca.df$Treatment=="C")]<-3
+
+data_ca.df$C2<--1
+data_ca.df$C2[which(data_ca.df$Treatment=="C")]<-0
+data_ca.df$C2[which(data_ca.df$Treatment=="AS")]<-2
+
+data_ca.df$C3<--1
+data_ca.df$C3[which(data_ca.df$Treatment=="C")]<-0
+data_ca.df$C3[which(data_ca.df$Treatment=="AS")]<-0
+data_ca.df$C3[which(data_ca.df$Treatment=="NC")]<-1
+
+mod<-lm(log(Yield)~Treatment,data=data_ca.df)
+mod2<-lm(log(Yield)~C1+C2+C3,data=data_ca.df)
+
+anova(mod)
+anova(mod2)
+```
+
+### Example 2  Data in cashmore.dat
+
+These are data on soil properties from sites in different soil series or classes (the variable `"Soil_Series"`, which is read in as a factor).
+
+Use the `LM` and `ANOVA` to examine evidence that differences between the soil series account for variation in water content (`GWC_T`, `GWC_S`) and `OM` content.
+
+The soil series are quite distinct, note the following information about them
+      
+|Series Name  | Symbol|  Parent           | material|
+|-----------|-------|-------------------|------------|
+|Lowlands     | Lw    | Lower Greensand    |Colluvial*|
+|Hallsworth   | Ha    | Lower Greensand  |Pelostagnogley**|
+|Nercwys      | Ne    | Lower Greensand  |Stagnogley**|
+|Evesham      | Ev    | Gault Clay | |
+|Bardsey      | Ba    | Gault Clay| |
+|Enborne      | En    | Alluvial Clay| |
+
+
+-  The colluvial soil is relatively coarse material over the LGS
+-  The stagnogleys are finer material, drainage is impeded. 
+-  In the pelostagnogley the finer minerals are prone to swell when wet and shrink and crack when dry.
+-  The Evesham series is formed in heavy clay, the Bardsey series and
+-  Enborne series are both sandy clay loams over clay loams.
+
+```{r eval=TRUE}
+data_csh.df<-read.table("data/cashmore.dat",header=T,stringsAsFactors=T)
+
+names(data_csh.df)
+
+mod<-lm(log(GWC_S)~Soil_Series,data=data_csh.df)
+summa(mod$residuals)
+summaplot(mod$residuals)
+plot(mod$fitted.values,mod$residuals,pch=16)
+
+anova(mod)
+
+boxplot(GWC_T~Soil_Series,data=data_csh.df)
+
+
+
+mod<-lm(OM_T~Soil_Series,data=data_csh.df)
+summa(mod$residuals)
+summaplot(mod$residuals)
+plot(mod$fitted.values,mod$residuals,pch=16)
+
+anova(mod)
+
+boxplot(OM_T~Soil_Series,data=data_csh.df)
+
+```
+
+## Regression analysis with `lm()`  
+
+Example 1.  
+
+```{r eval=TRUE}
+data.df<-read.table("data/soil.dat",header=T)
+names(data.df)
+
+# Plot pH in CaCl2 against pH in water
+plot(data.df$pHCaCl,pch=16,data.df$pHw,xlab="pH in CaCl2",ylab="pH in water",
+xlim=c(2,8.5),ylim=c(2,8.5))
+
+#Draw the bisector, or 1:1 line
+lines(c(2,8.5),c(2,8.5))
+
+#Compute the correlation coefficient between the two variables
+cor(data.df$pHCaCl,data.df$pHw)
+
+```
+
+:::{.callout-note}
+## What do you conclude about the relationship between the methods for measuring `pH`, just from the plot?
+:::
+
+
+### Regression model using lm
+```{r eval=TRUE}
+mod<-lm(pHw~pHCaCl,data=data.df)
+summary(mod)
+
+
+# Assumptions
+
+summa(mod$residuals)
+summaplot(mod$residuals)
+
+plot(mod$fitted,mod$residuals,xlab="Fitted values",ylab="Residuals",pch=16)
+
+```
+
+:::{.callout-note}
+## What is the evidence provided from the model about the relationship?
+:::
+
+ 
+### Draw the regression line
+
+```{r eval=TRUE}
+#First, replot the data
+plot(data.df$pHCaCl,data.df$pHw,pch=16,xlab="pH in CaCl2",ylab="pH in water",
+xlim=c(2,8.5),ylim=c(2,8.5))
+
+# Now, chose a minimum and maximum x value for the line
+minx<-2
+maxx<-8.5
+
+regline(minx,maxx,mod)
+```
+
+### Using the regression model for prediction
+
+
+Now predict the `pH` in water for some values in `CaCl` (these would be new
+samples for which we only know `pHCaCl`).
+
+values for prediction: we present a set of 5 values `4.2`,`5.6`,`6.4`,`7.3`,`8.1`
+
+```{r eval=TRUE}
+# make a vector of the values for prediction
+pHCaCl<-c(4.2,5.6,6.4,7.3,8.1)
+
+# make a dataframe from these values
+pHCaCl.df<-data.frame(pHCaCl)
+```
+
+:::{.callout-tip}
+Give the column in the data frame the same name as the same variable in the data frame we used for the regression.
+:::
+
+```{r eval=TRUE}
+colnames(pHCaCl.df)<-"pHCaCl"
+
+
+names(data.df)
+```
+
+Now make the predictions, the first term is the model object, the second is the data frame with the pH in CaCl2 values for which we want predictions.
+
+```{r eval=TRUE}
+
+pHwaterpred<-predict(mod,pHCaCl.df,
+interval="prediction",level=0.95)
+
+print(pHwaterpred)
+```
+
+The first column is the prediction, the second two are the upper and lower bounds of each 95% confidence interval for a point prediction.  Note that this is the confidence interval for a point prediction (i.e. a new single measurement).
+
+:::{.callout-note}
+## Exercise
+The file `cashmore.dat`, contains data on a number of soil properties measured at 100 sample sites in an experimental field.  These include Gravimetric Water Content in the topsoil (`GWC_T`) and in the subsoil (`GWC_S`).  It is easier to sample the topsoil than the subsoil. 
+
+i) Use regression analysis to test whether subsoil water content can be predicted from 
+ topsoil water content.  
+i) Find the predicted subsoil water content for soils where the topsoil water content is 20, 25 and 30%.
+i) Use regression analysis to test whether subsoil organic matter content can be predicted from topsoil water content.  Find the predicted subsoil `OM` content for soils where the topsoil `OM` content is 1.5%, 2.5% and 3.5%.
+
+:::{.callout-tip collapse="true"}
+## Solution
+```{r eval=TRUE}
+data.df<-read.table("data/cashmore.dat",header=T,stringsAsFactors=T)
+
+names(data.df)
+
+plot(data.df$GWC_T,data.df$GWC_S,xlim=c(10,35),ylim=c(10,35),pch=16)
+lines(c(15,35),c(15,35))
+
+mod<-lm(GWC_S~GWC_T,data=data.df)
+
+summa(mod$residuals)
+summaplot(mod$residuals)
+plot(mod$fitted.values,mod$residuals,pch=16)
+
+summary(mod)
+
+GWC.T<-c(20,25,30)
+GWC.T.df<-data.frame(GWC.T)
+colnames(GWC.T.df)<-"GWC_T"
+
+GWC.S.Pre<-predict(mod,GWC.T.df,interval="prediction",level=0.95)
+GWC.S.Pre
+```
+:::
+:::
+
+
+
+
