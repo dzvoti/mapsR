@@ -1,0 +1,50 @@
+project:
+  type: book
+  output-dir: docs
+
+
+book:
+  title: "mapsR: A guide to data analysis with R"
+  output-file: "mapsR"
+  # date: today
+  # cover-image: cover.png
+  # last-changed: today
+  repo-url: https://github.com/dzvoti/mapsR/
+  repo-actions: [edit]
+  downloads: [pdf, epub]
+  sharing: [twitter, facebook]
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - data_types.qmd
+    - data_structures.qmd
+    - reading_data.qmd
+    - writing_data.qmd
+    - functions.qmd
+    - data_wrangling.qmd
+    - big_data.qmd
+    - data_visualisation.qmd
+    - basic_statistics.qmd
+    - jura.qmd
+  # sidebar:
+  #   tools:
+  #     - icon: github
+  #       href: https://github.com/dzvoti/mapsR
+  #       aria-label: GitHub
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    number-depth: 1
+    toc-title: "On this page"
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
+# Do not evaluate code chunks
+eval: false
+callout-icon: false
+
