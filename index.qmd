@@ -1,0 +1,22 @@
+# Preface {.unnumbered}
+
+## About this manual {.unnumbered}
+This manual is designed for absolute beginners who are interested in using R and RStudio. The manual is an adaptation of materials for statistical analysis of soil and related data from agricultural and environmental surveys and experiments developed by the [Capacity for Conservation Agriculture Research (CEPHaS) project]() and made available to all for use, without warranty or liability. The CEPHaS project is funded by the UK Research and Innovation Global Challenges Research Fund (UKRI GCRF).
+
+Complilation of this manual is made possible by the [Micronutrient Action Poicy Support (MAPS)]() project team, funded by the Bill and Melinda Gates Foundation. This complilation is made available to all for use, without warranty or liability.
+
+## Acknowledgements {.unnumbered}
+This manual is a collaborative effort between the CEPHaS and MAPS projects. We would like to thank the following people for their contributions to this manual:
+[Liberty Mlambo](), [Murray Lark](), [Louise E. Ander](), [Hakunawadi Pswarayi](), [Tineka Blake](), [Chris Chagumaira]()
+
+
+## Who is this manual for? {.unnumbered}
+The goal of this manual is to provide a comprehensive introduction to these powerful technologies and to teach you how to use them to better understand your data and collaborate with others on your project.
+
+Throughout this manual, you will learn how to install and set up R and RStudio on your computer, as well as how to use them to perform data analysis, create visualizations, and manage your code. The manual includes step-by-step instructions, examples, and practice exercises to help you master these technologies.
+
+Whether you are a researcher, data scientist, or statistician, this manual will provide you with the skills and knowledge you need to start using R and RStudio, to better understand your data and collaborate with others on your project.
+
+It is important to note that this manual is not a comprehensive guide to R and RStudio but rather an introduction, designed to give you the foundational knowledge to start working with these technologies. There are many other resources available for learning more about these technologies, including online tutorials, forums, and documentation.
+
+We hope you find this manual helpful and that it empowers you to work with these powerful tools.
