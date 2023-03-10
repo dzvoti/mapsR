@@ -1,0 +1,91 @@
+# Wrangling Big Data
+
+## Introduction
+`Big Data` is a catch phrase for any dataset or data application that does not fit into available `RAM` on one system. R has a few packages for big data support e.g `bigmemory` and `ff`; and also some uses of parallelism to accomplish the same goal using `Hadoop` and `MapReduce`;
+
+For datasets with size in the range 10GB, `bigmemory` and `ff` handle themselves well;
+For larger datasets, use `Hadoop`.
+
+**Why is it important to use `bigmemory` and `ff`?**
+
+-  R reads data into `RAM` all at once, if using the usual `read.table()` function. 
+-  Objects in R live in memory entirely. 
+-  Keeping unnecessary data in `RAM` will cause `R` to choke eventually.
+-  Specifically,
+
+i)  on most systems it is not possible to use more than 2GB of memory.
+i)  the range of indexes that can be used is limited due to lack of a 64 bit integer data type in R and R64.
+i)  on 32 bit systems, the maximum amount of virtual memory space is limited to between 2 and 4GB.
+i)  relying on virtual memory will cause the system to grind to a halt "thrashing"
+
+**There are two major solutions in R:**
+
+1) `bigmemory`: It is ideal for problems involving the analysis in R of manageable subsets of the data, or when an analysis is conducted mostly in `C++`.*" It's part of the `\big`"* family, some of which we will discuss.
+1) `ff`: file-based access to datasets that cannot fit in memory.
+1) can also use databases which provide fast `read/write` access for piecemeal analysis.
+
+**The big family consists of several packages for performing tasks on large datasets.**
+
+1) `bigmemory` is our focus.
+1) `biganalytics` provides analysis routines on `big.matrix` such as `GLM` and `bigkmeans`.
+1) `synchronicity` adds Boost mutex functionality to R.
+1) `bigtabulate` adds table and split-like support for R matrices and `big.matrix` memory efficiently.
+1) `bigalgebra` provides `BLAS` and `LAPACK` linear algebra routines for native R matrices and big.matrix.
+1) `bigvideo` provides video camera streaming via `OpenCV`.
+
+:::{.callout-note}
+## Exercise
+```{r}
+# install.packages(c("bigmemory", "biganalytics"))
+install.packages(c("bigmemory", "biganalytics"))
+
+# load the packages
+library(bigmemory)
+library(biganalytics)
+
+options(bigmemory.typecast.warning=FALSE)
+
+# create a big.matrix
+A <- big.matrix(5000, 5000, type="char", init=0)
+
+# Fill the matrix by randomly picking 20% of the positions for a 1.
+x <- sample(1:5000,size=5000,replace=TRUE)
+x
+y <- sample(1:5000,size=5000,replace=TRUE)
+y
+
+for(i in 1:5000) {
+  A[x[i],y[i]] <- 1
+}
+
+# Get the location in RAM of the pointer to A.
+desc <- describe(A)
+desc
+
+# Write it to disk.
+dput(desc, file="A.desc")
+sums <- colsum(A, 1:20)
+sums
+```
+:::
+
+:::{.callout-note}
+## Exercise
+```{r}
+# Session 2
+library(bigmemory)
+library(biganalytics)
+
+# Read the pointer from disk.
+desc <- dget("A.desc")
+desc
+
+# Attach to the pointer in RAM.
+A <- attach.big.matrix(desc)
+A
+
+# Check our results.
+sums <- colsum(A, 1:20)
+sums
+```
+:::
