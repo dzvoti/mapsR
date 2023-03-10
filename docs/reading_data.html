@@ -148,7 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="sidebar-title mb-0 py-0">
       <a href="./">mapsR: A guide to data analysis with R</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/dzvoti/mapsR/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/dzvoti/mapsR" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
     <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
         <li>
@@ -356,11 +356,31 @@ Tip
 </ul>
 <p>We use <code>read.table</code> to create a data frame from the contents of a file <code>Variety_yileds.txt</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data.df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">"data/Variety_yields.txt"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="ot">&lt;-</span><span class="fu">read.delim</span>(<span class="st">"data/Variety_yields.csv"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Variety.Yield
+1 A,8.74767016670302
+2 A,15.6372430831258
+3 A,7.92219914616877
+4 A,8.93414573128023
+5 A,5.67850644886995
+6 A,8.09689378414148</code></pre>
+</div>
 </div>
 <p>We use <code>read.table</code> to create a data frame from the contents of a file <code>Cashmore_soil.dat</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data.df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Cashmore_sol.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data.df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"data/Cashmore_soil.dat"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  GWC_T GWC_S pH_T pH_S OM_T OM_S Soil_Series
+1  21.4  16.4 7.27 6.66 2.42 0.22          Lw
+2  23.0  25.5 6.35 6.26 2.20 0.54          Lw
+3  22.9  23.7 6.22 6.36 2.54 0.55          Lw
+4  20.8  17.0 6.50 6.65 4.48 2.53          Lw
+5  20.0  18.6 6.57 6.48 4.26 1.89          Lw
+6  20.8  16.7 6.26 6.50 3.47 2.45          Lw</code></pre>
+</div>
 </div>
 <div class="callout-tip callout callout-style-default no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -377,32 +397,62 @@ Tip
 </div>
 <p>We use read.csv to create a data frame from the contents of a file <code>yielddata.csv</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data.df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"yielddata.csv"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data.df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/yielddata.csv"</span>,<span class="at">header=</span>T,<span class="at">stringsAsFactors=</span>T)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The data frame is now ready for use. It can be helpful to examine the data frame with various R tools before proceeding to any analyses. For example,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data.df) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data.df) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>str</code> function describes the structure of the data frame. It tells you the number of rows (observations) in the data.frame and the number of columns (variables) that it contains. It also tells you the kind of data each variable comprises (recall that a data frame can contain different data structures).</p>
 <p>This example data frame contains data from a field experiment It was a Split-split design carried out in 2016/2017 season, with pd (planting date) as main plot; variety (maize) as sub plot; nrate (nitrogen fertilizer rate) as sub-sub plot; x_100_grain_wt (100 seed grain weight)</p>
 <p>The following commands can also be useful:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)      <span class="co"># displays the names of the variables in the dataframe</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)       <span class="co"># displays the first 6 rows of the dataframe</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data.df)       <span class="co"># displays last 6 rows of the dataframe</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df,<span class="dv">10</span>)    <span class="co"># displays 10 rows of the dataframe</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data.df)       <span class="co"># displays the number of rows</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(data.df)       <span class="co"># displays number of columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data.df)      <span class="co"># displays the names of the variables in the dataframe</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)       <span class="co"># displays the first 6 rows of the dataframe</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data.df)       <span class="co"># displays last 6 rows of the dataframe</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df,<span class="dv">10</span>)    <span class="co"># displays 10 rows of the dataframe</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data.df)       <span class="co"># displays the number of rows</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(data.df)       <span class="co"># displays number of columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When you are happy with the content and structure of the data frame, then you can access variables from within it with R commands. A very simple way to access a variable in a dataframe is by the “dollar notation” i.e.&nbsp;<code>$</code>, given the name of the variable.</p>
 <p>For example, to produce a set of summary plots of the 100-grain weights in the data frame created above, using the <code>"summaplot"</code> command from CEPHaStat we do the following:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load required library</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"CEPHaStat_2.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load required library</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"data/custom_functions/CEPHaStat_2.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CEPHaStat version  v1.1 Correction to order of summa output
+
+CEPHaStat is a collection of R functions produced by the UKRI GCRF
+CEPHaS project.  The functions relate primarily to statistical analysis of
+soil and related data from agricultural and environmental surveys and 
+experiments.  The CEPHaStat file can be shared as it stands, and is made 
+available to all for use, without warranty or liability.
+
+Current list of functions
+
+skew kurt ocskew
+summa summaplot outliers
+okgridvar, sv, dis
+vanG, vanGdraw, campB, campDdraw, plotgroups
+ </code></pre>
 </div>
-<p>Note: <code>CEPHaStat</code> is a script of functions prepared beforehand. The script is saved in the working directory from where it is “sourced”</p>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note: <code>CEPHaStat</code> is a script of functions prepared beforehand.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The script is saved in the working directory from where it is “sourced”</p>
+</div>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(data.df<span class="sc">$</span>x_100_grain_wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summaplot</span>(data.df<span class="sc">$</span>x_100_grain_wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>note that you refer to the vector of data using:</p>
 <ol type="i">
@@ -412,11 +462,20 @@ Tip
 </ol>
 <p>You can create a new variable within a data frame using the <code>&lt;-</code> assign operator. For example, to create a new variable which is the hundred grain weight in <code>mg</code>, you just multiply the original values (in grams) by 1000</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="sc">$</span>x_100_grain_wt_mg <span class="ot">&lt;-</span> data.df<span class="sc">$</span>x_100_grain_wt<span class="sc">*</span><span class="dv">1000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data.df<span class="sc">$</span>x_100_grain_wt_mg <span class="ot">&lt;-</span> data.df<span class="sc">$</span>x_100_grain_wt<span class="sc">*</span><span class="dv">1000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>you can now see that the data frame contains an additional variable</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data.df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  GWC_T GWC_S pH_T pH_S OM_T OM_S Soil_Series
+1  21.4  16.4 7.27 6.66 2.42 0.22          Lw
+2  23.0  25.5 6.35 6.26 2.20 0.54          Lw
+3  22.9  23.7 6.22 6.36 2.54 0.55          Lw
+4  20.8  17.0 6.50 6.65 4.48 2.53          Lw
+5  20.0  18.6 6.57 6.48 4.26 1.89          Lw
+6  20.8  16.7 6.26 6.50 3.47 2.45          Lw</code></pre>
+</div>
 </div>
 </section>
 <section id="exercise-reading-data-from-a-file" class="level2">
@@ -469,7 +528,7 @@ Exercise : Reading data from a file
 <li>Examine the structure of the data set</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Make summary plots of the continuous soil variables</li>
