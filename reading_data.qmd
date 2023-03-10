@@ -78,16 +78,19 @@ command.
 
 We use `read.table` to create a data frame from the contents of a file `Variety_yileds.txt`.
 
-```{r}
-data.df <- read.delim("data/Variety_yields.txt",header=T,stringsAsFactors=T)
+```{r eval=TRUE}
+data.df<-read.delim("data/Variety_yields.csv",header=T,stringsAsFactors=T)
+head(data.df)
 ```
 
 We use `read.table` to create a data frame from the contents of a file 
 `Cashmore_soil.dat`.
 
-```{r}
-data.df <- read.table("Cashmore_sol.dat",header=T,stringsAsFactors=T)
+```{r eval=TRUE}
+data.df <- read.table("data/Cashmore_soil.dat",header=T,stringsAsFactors=T)
+head(data.df)
 ```
+
 
 
 :::{.callout-tip}
@@ -96,7 +99,8 @@ Make sure that the file name in the editor matches the file name in the director
 
 We use read.csv to create a data frame from the contents of a file `yielddata.csv`.
 ```{r}
-data.df <- read.csv("yielddata.csv",header=T,stringsAsFactors=T)
+data.df <- read.csv("data/yielddata.csv",header=T,stringsAsFactors=T)
+head(data.df)
 ```
 The data frame is now ready for use.  It can be helpful to examine the data frame
 with various R tools before proceeding to any analyses.  For example, 
@@ -137,14 +141,15 @@ For example, to produce a set of summary plots of the 100-grain weights in
 the data frame created above, using the `"summaplot"` command from CEPHaStat
 we do the following:
 
-```{r}
+```{r eval=TRUE}
 # load required library
-source("CEPHaStat_2.R")
+source("data/custom_functions/CEPHaStat_2.R")
 ```
 
-
-Note: `CEPHaStat` is a script of functions prepared beforehand.
+:::{.callout-tip}
+## Note: `CEPHaStat` is a script of functions prepared beforehand.
 The script is saved in the working directory from where it is "sourced"
+:::
 
 ```{r}
 summaplot(data.df$x_100_grain_wt)
@@ -167,7 +172,7 @@ data.df$x_100_grain_wt_mg <- data.df$x_100_grain_wt*1000
 
 you can now see that the data frame contains an additional variable
 
-```{r}
+```{r eval=TRUE}
 head(data.df)
 ```
 
@@ -188,7 +193,6 @@ The variables in the data file are:
 | `Soil_Series`   |the soil series (soil class)|
 
 2) Examine the structure of the data set
-
 ```{r}
 str( )
 ```
