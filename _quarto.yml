@@ -11,7 +11,7 @@ book:
   # last-changed: today
   repo-url: https://github.com/dzvoti/mapsR/
   repo-actions: [edit]
-  downloads: [pdf, epub]
+  # downloads: [pdf, epub]
   sharing: [twitter, facebook]
   chapters:
     - index.qmd
@@ -20,17 +20,17 @@ book:
     - data_structures.qmd
     - reading_data.qmd
     - writing_data.qmd
-    - functions.qmd
     - data_wrangling.qmd
     - big_data.qmd
+    - functions.qmd
     - data_visualisation.qmd
     - basic_statistics.qmd
     - jura.qmd
-  # sidebar:
-  #   tools:
-  #     - icon: github
-  #       href: https://github.com/dzvoti/mapsR
-  #       aria-label: GitHub
+  sidebar:
+    tools:
+      - icon: cloud-arrow-down
+        href: https://dzvoti.github.io/mapsR/data.zip
+        aria-label: Download data
 
 bibliography: references.bib
 
@@ -42,7 +42,7 @@ format:
   pdf:
     documentclass: scrreprt
 
-editor: visual
+editor: source
 
 # Do not evaluate code chunks
 eval: false
