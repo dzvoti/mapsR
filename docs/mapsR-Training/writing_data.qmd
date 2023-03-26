@@ -1,0 +1,247 @@
+# Writing/Exporting Data
+
+## Introduction
+After manipulating data in a data frame we might want to save the output, either
+to be used with other software, or to save for archiving or further use in R. 
+To produce a `.txt` file as output you can use the `write.table` command.
+
+First, we make a new data frame from random variables
+
+```{r eval=TRUE}
+Variety <- (rep(c("A","B","C"),each=10))
+# converting varieties to factors
+example.df <- data.frame(Variety,stringsAsFactors=T)
+# number of obsv, mean, sd
+example.df$Yield <- rnorm(30,10,5)
+
+head(example.df)
+```
+
+First try the following
+
+```{r}
+write.table(example.df,"Variety_yields.txt")
+```
+
+Go to your working directory and look at the resulting file.  The first few
+lines will be something like this
+
+||"Variety"| "Yield"|
+|:---|:---|:---|
+|"1" |"A" |14.9320801147097|
+|"2" |"A" |13.2040635718118|
+|"3" |"A" |17.6780697654481|
+|"4" |"A" |10.3252632315969|
+|"5" |"A" |7.79996535504178|
+|"6" |"A" |18.0229009561374|
+|"7" |"A" |10.2652234419097|
+|"8" |"A" |4.44808130068076|
+|"9" |"A" |6.62607203181109|
+|"10"| "A"| 9.59345532285773|
+|"11"| "B"| 13.4659787880458|
+
+There are some features we might not like, first, the row numbers, which will often
+be a nuisance when reading the file back into R or other software.  Second, the 
+quotation marks around the variable names.  We can fix these as follows
+
+```{r}
+write.table(example.df,file="Variety_yields.txt",row.names=F,quote=F)
+```
+The first few lines of the file now look like this
+
+|Variety |Yield|
+|:---|:---|
+|A |14.9320801147097|
+|A |13.2040635718118|
+|A |17.6780697654481|
+|A |10.3252632315969|
+|A |7.79996535504178|
+|A |18.0229009561374|
+|A |10.2652234419097|
+|A |4.44808130068076|
+|A |6.62607203181109|
+|A |9.59345532285773|
+|B |13.4659787880458|
+
+
+You can use the `write.csv` command to make your output a `.csv` file.
+
+```{r}
+write.csv(example.df,file="Variety_yields.csv",row.names=F,quote=F)
+```
+
+## Overwriting files
+If you write out a file with the same name as one that is open in the working directory
+you will get an error message. To try it:
+Go to your working directory and open the csv file `"Variety_yields"` you have just written
+Now, rewrite the the file and see what happens
+
+```{r}
+write.csv(example.df,file="Variety_yields.csv",row.names=F,quote=F)
+```
+
+:::{.callout-note}
+## Exercise: Overwritting files
+-  write out a file to the working directory. 
+```{r}
+write.csv(example.df,file="Variety_yields.csv",row.names=F,quote=F)
+```
+-  Do not open it. Or close it if open.now, 
+-  write out another file with the same name to the same working directory 
+How many files of the same name appear in the working directory? Only one because the other has been overwritten
+:::{.callout-tip}
+you can use `help("write.csv")` or `?write.csv` to see the options provided by `write.csv`
+:::
+:::
+
+## Exercise
+:::{.callout-note}
+## Exercise: 
+Go back to the data frame you made with the soil data in the file `"Cashmore_soil.csv"`.
+
+The variables in the data file are:
+|Variable name |Description|
+|:---|:---|
+|`GWC_T`, `GWC_S`  |gravimetric water content of the topsoil (_T) and subsoil.|
+|`pH_T`,  `pH_S`   |pH of the topsoil and subsoil|
+|`OM_T`,  `OM_S`   |organic matter content of the topsoil and subsoil|
+|`Soil_Series`   |the soil series (soil class)|
+
+i) add a variable to the dataframe which is the log of subsoil GWC.
+ii) Then write this supplemented data file to a new `.txt` format file, 
+iii) and to a new .csv file.  
+:::
+
+## Exercise
+:::{.callout-note}
+## Homework Exercise : Reading data from Excel files. Homework
+
+
+Often your data may be in an Excel file, and it is possible to read
+data directly from such a file into a data frame.  This requires a
+suitable package.  The readxl package is particularly useful and can
+be used to read `.xls` or `.xlsx` .  You should install it on your computer
+using the command `install.packages("readxl")`
+
+When `readxl` is installed `(package: install.readxl)`, then you only need to load it in future R
+sessions, using the command:
+
+```{r }
+# install the package. Uncomment the line below if you need to install the package
+# install.packages("readxl")
+
+# load the package
+library(readxl) 
+
+# read the documentation of the package
+help("readxl") 
+```
+
+The readxl package makes it easy to get data out of Excel and into R. 
+Compared to many of the existing packages (e.g. gdata, xlsx, xlsReadWrite) 
+readxl has no external dependencies, so it's easy to install and use on all 
+operating systems. It is designed to work with tabular data.
+
+You are provided with an Excel file called `soil.xlsx`.  This contains
+two sheets.  The first contains some data on soil clay content and on soil
+organic carbon content.  The second sheet contains some data on soil pH
+measured on the same sample in water or in calcium chloride.
+#
+The `excel_sheets()` command in `readxl` will tell you the names of the 
+sheets in an Excel file available in your working directory:
+
+```{r eval=TRUE}
+library(readxl)
+# this shows the sheet names within the "soil.xlsx" file
+excel_sheets("data/soil.xlsx") 
+```
+Using this information, you can then read a particular sheet from
+the file into a data frame in R.  You can do this either by using the name
+of the sheet, or the number in the sequence of names:
+
+```{r eval=TRUE}
+data.df <- read_excel("data/soil.xlsx", sheet = "clay_SOC")
+head(data.df)
+```
+
+... or, equivalently
+
+```{r eval=TRUE}
+data.df<-read_excel("data/soil.xlsx", sheet = 1)
+head(data.df)
+```
+
+The data are now in the dataframe, you can examine its contents, for example,
+with
+
+```{r eval=TRUE}
+str(data.df)
+```
+
+and you can reference the variables using the $ notation, e.g.
+
+```{r eval=TRUE}
+plot(data.df$clay,data.df$SOC,xlab="Clay content /%",
+ylab="Soil organic carbon /%")
+```
+
+There are various ways to control which cells are read. 
+See the examples below:
+
+1) **by specifying the maximum number of rows to read in:**
+
+```{r eval=TRUE}
+# this shows the specific number of rows using n_max
+data.df<-read_excel("data/soil.xlsx", n_max = 3) 
+print(data.df)
+```
+2) **by specifying a `range` in the sheet, using the normal Excel notation (note that row 1 contains the variable names)**
+
+```{r eval=TRUE}
+data.df<-read_excel("data/soil.xlsx", sheet=1, range = "A1:B8")
+print(data.df)
+```
+
+3) **by specifying a number of rows:**
+
+```{r eval=TRUE}
+data.df<-read_excel("data/soil.xlsx", sheet=1, range = cell_rows(1:4))
+print(data.df)
+```
+
+4)  **by specifying the cell columns**
+    
+```{r eval=TRUE}
+data.df<-read_excel("data/soil.xlsx", sheet=1,  range = cell_cols("A"))
+print(data.df)
+```
+
+## Exercise
+:::{.callout-note}
+## Homework Exercise: Reading data from Excel files
+i)  Use `read.xl` functions to read in the first `100` observations on `soil pH` in 
+`soil.xlsx`.  
+ii)  Then produce a plot of `soil pH` measured in water against soil 
+pH measured in calcium chloride. 
+
+:::{.callout-tip collapse="true"}
+## Possible Solution
+```{r eval=TRUE}
+excel_sheets("data/soil.xlsx")
+data.df<-read_excel("data/soil.xlsx", sheet = "pH", range = cell_rows(1:100))
+head(data.df)
+plot(data.df$pHw,data.df$pHCaCl, xlab ="Ph water", ylab="pHCalc")
+```
+:::
+:::
+
+## Exercise
+:::{.callout-note}
+## Excercise : Reading data from Excel files
+You have been provided with an Excel file called `liempe_climatedata.xls`
+
+i)  Use the appropriate command from `read.xl` to list the sheets that it contains
+ii) Next, read the first `360` rows of the monthly weather data into a data frame
+iii) and plot a graph of mean monthly temperature against rainfall.
+:::
+

@@ -1,0 +1,216 @@
+# Reading/Importing Data
+
+## Introduction
+
+The objective of this section is to provide information on the topic under consideration, along with examples and exercises.  You should be able to work through it in R or R studio.  
+
+This section is concerned with how we get numbers into R, and then write numbers out again.  By the end you should have a better understanding of the R scripts, and should be better-placed to start developing and editing scripts yourself. The particular topics we shall cover are:
+
+1)  Reading simple data files into R
+1)  Writing data out of R
+1)  Reading data from Excel files
+
+
+In most applications of R we need to start by reading in data from a file which has been created elsewhere, perhaps using an editor, a spreadsheet or as output from a particular piece of equipment or software. In this script we explore some options for doing this.
+
+
+## Setting the working directory
+
+Before you read data into R, you must ensure that R knows where to look for the data on your computer.  It is possible to give a full path to the file, but is usually most convenient to set the folder with the data as the working directory.  This can be done using the `"Change directory.."`
+option from the `"Session"` drop down menu when the R console is active. Or from the `"File browser"` three dots `...` (click to `navigate` to folder), and then `"More"` icon drop down to set working directory
+Alternatively you can use the `"setwd"` (set working directory) command as follows:
+
+Three ways of setting a working directory:
+
+1)  `setwd`: you need to know the working directory path, which I find complicated
+
+```{r}
+setwd("C:/Users/sbzhp/OneDrive - The University of Nottingham/Documents/Basic R and Summary Statistics/Intro_to_R/Tanz_Training")
+```
+
+2)  Use the Session tool on the Tool bar: Session etc.
+
+3) Use the File Browser of RStudio:
+-  Navigate to the folder you want to set as working directory
+-  Then `"click"` on the `"More"` tab (has a cog/wheel next to it)
+-  Then `"Click"` on `"Set as Working Directory"`
+
+You can derive the full path to the file/working directory using `"getwd"` function:
+
+```{r}
+getwd()
+```
+
+:::{.callout-tip}
+Note that this is a path to the directory on my computer. Edit it to give the correct path to the directory where you are working.  Also note that R uses forward slashes, `/`, in directory paths
+rather than the more common backslash.
+:::
+
+## Reading simple data files into R
+
+The `read.table` function is one of the most commonly used functions for reading data. It can be used for reading data in simple ascii formats suchas `.txt` files, or `.dat` files produced by many applications.  If you want to read in data from a `.csv` file (comma-separated values), as is commonly output from an Excel spreadsheet, then you can use the variant `read.csv` command. 
+
+`read.table` or `read.csv` assume that the data are organized in columns in the file, one column for each variable, and one row corresponds to a single observation (e.g. an experimental plot or a soil core) for which we may have several factor labels, and several variables measured. 
+
+`read.table` or `read.csv` has a few important arguments:
+
+-  `file`: the name of the file which you want to read.  At its simplest this is just a file name, in double quotes, (`"data.dat"`, for example), when this file is present in the working directory but there are more complex options.
+
+```{r}
+# See ?read.table for details
+?read.table
+```
+
+-  `header`: this is a logical argument so it takes value T (`true`) if the firstrow of the file is a header with names of the variables in columns, and `F` otherwise.
+
+These two arguments are often all that you will need, for small files. There are some other useful ones, for example:
+
+-  `skip`: the number of lines to skip from the beginning (e.g if you don't want to look at the first 100 lines of the file.
+
+-  `stringsAsFactors`: should character variables be coded as factors?  This
+will ensure that R treats any variables which have letters in them (e.g. "A1")
+as factors (i.e. labels for levels of a categorical variable such as
+variety or cultivation method).  Recent releases of R do not do this by
+default, so this argument can be very useful.  If you wanted all character
+variables to be treated as factors then include `stringsAsFactors=T` in the 
+command.
+
+
+We use `read.table` to create a data frame from the contents of a file `Variety_yileds.txt`.
+
+```{r eval=TRUE}
+data.df<-read.delim("data/Variety_yields.csv",header=T,stringsAsFactors=T)
+head(data.df)
+```
+
+We use `read.table` to create a data frame from the contents of a file 
+`Cashmore_soil.dat`.
+
+```{r eval=TRUE}
+data.df <- read.table("data/Cashmore_soil.dat",header=T,stringsAsFactors=T)
+head(data.df)
+```
+
+
+
+:::{.callout-tip}
+Make sure that the file name in the editor matches the file name in the directory!!
+:::
+
+We use read.csv to create a data frame from the contents of a file `yielddata.csv`.
+```{r}
+data.df <- read.csv("data/yielddata.csv",header=T,stringsAsFactors=T)
+head(data.df)
+```
+The data frame is now ready for use.  It can be helpful to examine the data frame
+with various R tools before proceeding to any analyses.  For example, 
+
+```{r}
+str(data.df) 
+```
+
+`str` function describes the structure of the data frame.  It tells you the number of rows 
+(observations) in the data.frame and the number of columns (variables) that it contains.
+It also tells you the kind of data each variable comprises (recall that a data frame can
+contain different data structures).
+
+This example data frame contains data from a field experiment 
+It was a Split-split design carried out in 2016/2017 season, with 
+pd (planting date) as main plot; 
+variety (maize) as sub plot; 
+nrate (nitrogen fertilizer rate) as sub-sub plot; 
+x_100_grain_wt (100 seed grain weight)
+
+The following commands can also be useful:
+
+```{r}
+names(data.df)	    # displays the names of the variables in the dataframe
+head(data.df) 	    # displays the first 6 rows of the dataframe
+tail(data.df) 	    # displays last 6 rows of the dataframe
+head(data.df,10) 	# displays 10 rows of the dataframe
+nrow(data.df) 	    # displays the number of rows
+ncol(data.df) 	    # displays number of columns
+```
+
+When you are happy with the content and structure of the data frame, then you can
+access variables from within it with R commands.  A very simple way to access a 
+variable in a dataframe is by the "dollar notation" i.e. `$`, given the name of the variable.  
+
+
+For example, to produce a set of summary plots of the 100-grain weights in 
+the data frame created above, using the `"summaplot"` command from CEPHaStat
+we do the following:
+
+```{r eval=TRUE}
+# load required library
+source("data/custom_functions/CEPHaStat_2.R")
+```
+
+:::{.callout-tip}
+## Note: `CEPHaStat` is a script of functions prepared beforehand.
+The script is saved in the working directory from where it is "sourced"
+:::
+
+```{r}
+summaplot(data.df$x_100_grain_wt)
+```
+
+note that you refer to the vector of data using:
+
+(i) the name of the dataframe i.e. `data.df`, 
+(ii) a `$` sign and 
+(iii) the variable name, with no spaces i.e. `x_100_grain_wt`
+
+
+You can create a new variable within a data frame using the `<-` assign operator. 
+For example, to create a new variable which is the hundred grain weight in `mg`, 
+you just multiply the original values (in grams) by 1000
+
+```{r}
+data.df$x_100_grain_wt_mg <- data.df$x_100_grain_wt*1000
+```
+
+you can now see that the data frame contains an additional variable
+
+```{r eval=TRUE}
+head(data.df)
+```
+
+## Exercise : Reading data from a file
+:::{.callout-note}
+## Exercise : Reading data from a file
+
+1) Use `read.csv` to read the soil data in the file `"Cashmore_soil.csv"` into an R
+dataframe, making sure that character variables are read in as factors.
+
+The variables in the data file are:
+
+| Variable name   | Description |
+|------|-------------|
+| `GWC_T` `GWC_S`   |gravimetric water content of the topsoil (_T) and subsoil.|
+| `pH_T` `pH_S`   |pH of the topsoil and subsoil|
+| `OM_T` `OM_S`   |organic matter content of the topsoil and subsoil|
+| `Soil_Series`   |the soil series (soil class)|
+
+2) Examine the structure of the data set
+```{r}
+str( )
+```
+3) Make summary plots of the continuous soil variables
+4) Make a new variable in the data frame which is the `log` of the gravimetric
+water content of the subsoil, and make a summary plot of it. 
+
+:::{.callout-tip}
+Recall that the R function `"log"` will return the natural logarithm thus `y<-log(x)`.
+:::
+
+:::
+
+## Exercise : Reading data from a file
+:::{.callout-note}
+## Homework Exercise : Reading data from a file
+The data are also provided in an ascii file `"Cashmore_soil.dat"`.  Use the
+`read.table` command to convince yourself that these are the same data!
+
+:::
+

@@ -1,3 +1,27 @@
 # Summary
 
+```{r eval=TRUE,echo=FALSE}
 
+# List all files in the data folder
+data_files <- list.files("data", full.names = TRUE)
+
+# Copy each file to the destination folder
+for (file in data_files) {
+  file.copy(file, "docs/mapsR-Training/data", overwrite = TRUE)
+}
+
+
+# Get a list of all .qmd files in the source folder
+qmd_files <- list.files(".", pattern = ".qmd", full.names = TRUE)
+
+# Remove "summary.qmd" from the list
+qmd_files <- qmd_files[-grep("summary.qmd", qmd_files)]
+
+# Copy each .qmd file to the destination folder
+for (file in qmd_files) {
+    file.copy(file, "docs/mapsR-Training", overwrite = TRUE)
+    }
+
+# Zip the destination folder
+zip("docs/mapsR-Training.zip", "docs/mapsR-Training")
+```

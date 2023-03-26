@@ -1,0 +1,88 @@
+
+
+
+# Basic Statistics: Jura
+
+:::{.callout-note}
+## Exercise: Exploratory data analysis
+
+
+Run the blocks below and:
+i)  Discuss the summary statistics and distributions
+i)  Carry out the transformations and discuss the results
+:::
+
+### Import custom functions
+```{r eval=TRUE}
+source("data/custom_functions/CEPHaStat_3.R")
+source("data/custom_functions/boxcox.R")
+```
+
+### Import Jura data
+```{r eval=TRUE}
+data.df<-read.csv("data/Jura.csv",header=T,stringsAsFactors=T)
+```
+
+###  Jura Pb Analyses
+
+#### Distributions and Summary statistics
+
+```{r eval=TRUE}
+summa(data.df$Pb)
+summaplot(data.df$Pb,"Pb /ppm")
+```
+
+:::{.callout-tip}
+## Remember to base transformations on residuals, after fitting the model!
+:::
+    
+```{r eval=TRUE}
+mod<-lm(Pb~Rock,data=data.df)
+summa(mod$residuals)
+summaplot(mod$residuals,"Residual /ppm Pb")
+```
+
+
+#### Comparing the log and BoxCox transformations
+
+:::{.callout-tip}
+## Remember to base transformations on residuals, after fitting the model!
+:::
+
+#### log transformation
+
+```{r eval=TRUE}
+mod2<-lm(log(Pb)~Rock,data=data.df)
+summa(mod2$residuals)
+summaplot(mod2$residuals,"Residual /Bcox ppm Pb")
+anova(mod2)
+```
+
+#### BoxCox transformation
+
+```{r eval=TRUE}
+mod3<-lm(BoxCox(Pb)~Rock,data=data.df)
+summa(mod3$residuals)
+summaplot(mod3$residuals,"Residual /Bcox ppm Pb")
+
+anova(mod3)
+```
+
+
+#### Co analyses
+
+```{r eval=TRUE}
+summa(data.df$Co)
+summaplot(data.df$Co,"Co /ppm")
+
+mod<-lm(Co~Rock,data=data.df)
+
+summa(mod$residuals)
+summaplot(mod$residuals,"Residual /ppm Co")
+```
+
+:::{.callout-note}
+# What do you conclude from the Co analysis?
+:::
+
+
