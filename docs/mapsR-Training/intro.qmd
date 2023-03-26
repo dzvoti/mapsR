@@ -70,8 +70,7 @@ Step 8:
 
 ### Downloading and Installing RStudio
 
-To download RStudio, you can visit the official RStudio website at <https://rstudio.com/products/rstudio/download/>. On the website, you will see links to download the latest version of RStudio for Windows, Mac, and Linux. Once you have downloaded the installer for your operating system, you can run the installer and follow the prompts to install RStudio on your computer.
-![](images/Screenshot%202023-03-26%20144336.png)
+To download RStudio, you can visit the official RStudio website at <https://rstudio.com/products/rstudio/download/>. On the website, you will see links to download the latest version of RStudio for Windows, Mac, and Linux. Once you have downloaded the installer for your operating system, you can run the installer and follow the prompts to install RStudio on your computer. ![](images/Screenshot%202023-03-26%20144336.png)
 
 ::: {.callout-note collapse="true" icon="false"}
 #### Instructions for downloading and Installing Rstudio
@@ -101,4 +100,10 @@ From here we will use the term R to refer to R and Rstudio or vice-versa.
 
 ![Source: https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html](images/rstudio-panes-labeled.jpeg)
 
-## Recommended set
+## Recommended setup while using this book
+
+Step 1: Download the training files from the following link: <https://dzvoti.github.io/mapsR/mapsR-Training.zip>
+
+Step 2: Unzip the file and save it in a folder on your computer.
+
+Step 3: Open RStudio create a new project using an existing folder. Select the folder where you saved the training files.
