@@ -1,0 +1,23 @@
+# Materials and Timetable {.unnumbered}
+
+## Timetable {.unnumbered}
+|Date|Session|Topics|Facilitator|
+|:---|:------|:-----|:----------|
+|Mon 27-03-2023|Morning session|Introduction to R and Rstudio|Liberty Mlambo|
+|||Data types and structures|Dr Hakunawadi Pswarayi|
+||Afternoon session|Data wrangling (with Chapter 7 homework)|Dr Chris Chagumaira|
+|||||
+|Tue 28-03-2023|Morning session|Developing custom functions in R|Liberty Mlambo|
+||Afternoon session| Summary statistics and data visualization|Dr Hakunawadi Pswarayi|
+|||||
+|Wed 29-03-2023|Morning & Afternoon session|Basic Modelling in R|Prof Murray Lark|
+
+## Materials {.unnumbered}
+
+Download training Materials from google drive [here](https://drive.google.com/drive/folders/1yT3hH_j7szrdZD1G9Bg-CH1U3Im-KahL). Note that this is a zipped folder which will require you to unzip it before you can access the files.
+
+If you are using a Mac, you can unzip the folder by double clicking on the folder and then right clicking on the folder and selecting "Open with Archive Utility". If you are using a PC, you can unzip the folder by right clicking on the folder and selecting "Extract All".
+
+
+
+
