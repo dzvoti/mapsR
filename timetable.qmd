@@ -5,12 +5,16 @@
 |:---|:------|:-----|:----------|
 |Mon 27-03-2023|Morning session|Introduction to R and Rstudio|Liberty Mlambo|
 |||Data types and structures|Dr Hakunawadi Pswarayi|
+|1300-1400(GMT+1)||**Break**||
 ||Afternoon session|Data wrangling (with Chapter 7 homework)|Dr Chris Chagumaira|
 |||||
 |Tue 28-03-2023|Morning session|Developing custom functions in R|Liberty Mlambo|
+|1300-1400(GMT+1)||**Break**||
 ||Afternoon session| Summary statistics and data visualization|Dr Hakunawadi Pswarayi|
 |||||
-|Wed 29-03-2023|Morning & Afternoon session|Basic Modelling in R|Prof Murray Lark|
+|Wed 29-03-2023|Morning session|Basic Modelling in R|Prof Murray Lark|
+|1300-1400(GMT+1)||**Break**||
+|Wed 29-03-2023|Afternoon session|Basic Modelling in R (Cont..)|Prof Murray Lark|
 
 ## Materials {.unnumbered}
 
