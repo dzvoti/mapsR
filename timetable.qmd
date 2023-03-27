@@ -1,27 +1,27 @@
 # Materials and Timetable {.unnumbered}
 
 ## Timetable {.unnumbered}
-|Date|Session|Topics|Facilitator|
-|:---|:------|:-----|:----------|
-|Mon 27-03-2023|Morning session|Introduction to R and Rstudio|Liberty Mlambo|
-|||Data types and structures|Dr Hakunawadi Pswarayi|
-|1300-1400(GMT+1)||**Break**||
-||Afternoon session|Data wrangling (with Chapter 7 homework)|Dr Chris Chagumaira|
+|Date|Session|Topics|Materials|Facilitator|
+|:---|:------|:-----|---|:----------|
+|Mon 27-03-2023|Morning session|Introduction to R and Rstudio||Liberty Mlambo|
+|||Data types and structures|[Download Materials(set 1)](https://drive.google.com/drive/folders/1yT3hH_j7szrdZD1G9Bg-CH1U3Im-KahL)|Dr Hakunawadi Pswarayi|
+|1300-1400(GMT+1)||**Break**|||
+||Afternoon session|Data wrangling (with Chapter 7 homework)|[Download Materials(set 2)](https://dzvoti.github.io/mapsR/mapsR-Training.zip)|Dr Chris Chagumaira|
 |||||
-|Tue 28-03-2023|Morning session|Developing custom functions in R|Liberty Mlambo|
-|1300-1400(GMT+1)||**Break**||
-||Afternoon session| Summary statistics and data visualization|Dr Hakunawadi Pswarayi|
+|Tue 28-03-2023|Morning session|Developing custom functions in R||Liberty Mlambo|
+|1300-1400(GMT+1)||**Break**|||
+||Afternoon session| Summary statistics and data visualization||Dr Hakunawadi Pswarayi|
 |||||
-|Wed 29-03-2023|Morning session|Basic Modelling in R|Prof Murray Lark|
-|1300-1400(GMT+1)||**Break**||
-|Wed 29-03-2023|Afternoon session|Basic Modelling in R (Cont..)|Prof Murray Lark|
+|Wed 29-03-2023|Morning session|Basic Modelling in R||Prof Murray Lark|
+|1300-1400(GMT+1)||**Break**|||
+|Wed 29-03-2023|Afternoon session|Basic Modelling in R (Cont..)||Prof Murray Lark|
 
 ## Materials {.unnumbered}
+
 
 Download training Materials from google drive [here](https://drive.google.com/drive/folders/1yT3hH_j7szrdZD1G9Bg-CH1U3Im-KahL). Note that this is a zipped folder which will require you to unzip it before you can access the files.
 
 If you are using a Mac, you can unzip the folder by double clicking on the folder and then right clicking on the folder and selecting "Open with Archive Utility". If you are using a PC, you can unzip the folder by right clicking on the folder and selecting "Extract All".
-
 
 
 
