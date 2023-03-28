@@ -23,5 +23,5 @@ for (file in qmd_files) {
     }
 
 # Zip the destination folder
-zip("docs/mapsR-Training.zip", "docs/mapsR-Training")
+#zip("docs/mapsR-Training.zip", "docs/mapsR-Training/*")
 ```
