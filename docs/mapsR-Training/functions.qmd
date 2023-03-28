@@ -1,69 +1,74 @@
+# Custom Functions
 
-# Custom Functions 
 ## Introduction to functions
 
 Functions are a fundamental concept in programming and R is no exception. They allow you to encapsulate a set of instructions or an algorithm, which you can then reuse multiple times in your code. In this section, we will learn how to create and use functions in R.
 
-Before we start, it's a good idea to make your code more readable by adding some color to it. In RStudio, you can do this by going to the `menu`: `Tools` > `Global Options` > `Code` > `Display` > `Rainbow Parentheses` (Click apply). This will make it easier to see the start and end of functions.
+Before we start, it's a good idea to make your code more readable by adding some color to it. In RStudio, you can do this by going to the `menu`: `Tools` \> `Global Options` \> `Code` \> `Display` \> `Rainbow Parentheses` (Click apply). This will make it easier to see the start and end of functions.
 
 Is it looking more colourful now?
+
 ```{r eval=FALSE,echo=TRUE}
 str(list(unique(liempe_data$Month)))
 ```
-  
+
+```{=html}
 <!-- #TODO: Insert picture here
 Let's take a look at the 'function-syntax.png' image in your folder -->
+```
+### Name
 
-###  Name
 The name of a function should be descriptive of what it does. It is good practice to use a verb (a "doing word") as functions DO things. For example, a function that calculates the median of a dataset could be named `"calculate_median"`. Here are some examples of good and bad function names:
 
-:::{.callout-important}
-| Good | Bad |
-|---|---|
-| validate_data | validation |
-| calculate_likelihood |  likelihood_calculation|
-| maximise_function | function_maximum |
+::: callout-important
+| Good                 | Bad                    |
+|----------------------|------------------------|
+| validate_data        | validation             |
+| calculate_likelihood | likelihood_calculation |
+| maximise_function    | function_maximum       |
 :::
 
-It's also important to follow a consistent naming convention, such as `snake_case` or `camelCase`. You can find more information on this in the Tidyverse style guide: [https://style.tidyverse.org/functions.html](https://style.tidyverse.org/functions.html)
-
+It's also important to follow a consistent naming convention, such as `snake_case` or `camelCase`. You can find more information on this in the Tidyverse style guide: <https://style.tidyverse.org/functions.html>
 
 ### Arguments
 
 Arguments are the input variables that you pass to a function. A function can have no arguments, one argument, or multiple arguments. For example:
-  
-A function with no arguments 
+
+A function with no arguments
+
 ```{r eval=FALSE,echo=TRUE}
-function() 
-```  
+function()
+```
 
 A function with one argument, i.e. a dataframe, x
+
 ```{r eval=FALSE,echo=TRUE}
 function(x)
 ```
 
 A function with two arguments, i.e. a dataframe, x and a list, y
+
 ```{r eval=FALSE,echo=TRUE}
 function(x, y)
 ```
-    
-            
-### Function Body
-  
-The function body is the set of instructions or algorithm that you would like your function to execute. It is enclosed in curly braces `{}`. Here's a base R example:   
 
-```{r eval=FALSE,echo=TRUE}            
+### Function Body
+
+The function body is the set of instructions or algorithm that you would like your function to execute. It is enclosed in curly braces `{}`. Here's a base R example:
+
+```{r eval=FALSE,echo=TRUE}
 calculate_sum_median <- function(x){
      y <- sum(x$column1, x$column2)
      z <- median(y)
      return (z)
    }
 ```
+
 In this example, the function takes a dataframe as an argument and calculates the sum of two columns, then calculates the median of the sum.
 
 Here is an example of how you can re-write the above function using the Tidyverse syntax:
 
-```{r eval=FALSE,echo=TRUE}   
+```{r eval=FALSE,echo=TRUE}
 library(tidyverse)
 calculate_sum_median <- function(x){
     x %>% 
@@ -81,19 +86,20 @@ We first select the columns `"column1"` and `"column2"` using the `select()` fun
 
 Note that in this example, the function doesn't return any value as we are using the pipe operator, the final result is the median of the sum of `column1` and `column2`, so you don't need to use return statement.
 
-### Return value 
+### Return value
+
 The return value is the value that you'd like the function to return. In the example above, the function returns the median of the sum of the two columns. It's important to always return a value and not rely on the automatic function capability of R to return the last value.
 
 To call a function, you simply need to invoke it by its name and pass in any necessary arguments. For example:
 
-```{r eval=FALSE,echo=TRUE}   
+```{r eval=FALSE,echo=TRUE}
 calculate_sum_median(x)
 ```
 
 Now let's see how we can use this function on a subset of the Liempe data:
 
-```{r eval=FALSE,echo=TRUE}   
-liempe_data <- read.csv("liempe-climate-data.csv")
+```{r eval=FALSE,echo=TRUE}
+liempe_data <- read.csv("data/liempe-climate-data.csv")
 
 calculate_sum_median <- function(liempe_data){
   y <- sum(liempe_data$tmp, liempe_data$rainfall)
@@ -104,7 +110,7 @@ calculate_sum_median <- function(liempe_data){
 
 Here is an example of how you can re-write the above function using the Tidyverse syntax:
 
-```{r eval=FALSE,echo=TRUE}  
+```{r eval=FALSE,echo=TRUE}
 library(tidyverse)
 
 liempe_data <- read_csv("liempe-climate-data.csv")
@@ -117,6 +123,7 @@ calculate_sum_median <- function(liempe_data){
     median()
 }
 ```
+
 In this example, we first load the Tidyverse library, then we read in the `"liempe-climate-data.csv"` using the `read_csv()` function from readr package, which is part of the Tidyverse.
 
 We then define our function `calculate_sum_median()` , which takes in the dataframe "liempe_data" as an argument. Inside the function, we use the pipe operator`(%>%)` to chain together several Tidyverse functions to achieve the same result as the previous example.
@@ -125,64 +132,65 @@ We first select the columns `"tmp"` and `"rainfall"` using the `select()` functi
 
 Note that in this example, the function doesn't return any value as we are using the pipe operator, the final result is the median of the sum of tmp and rainfall, so you don't need to use return statement.
 
-And then what... 
+And then what...
 
 We have to `"invoke"` or `"call"` the function
 
-```{r}  
+```{r}
 calculate_sum_median(x)
 ```
 
 Wonderful! Now shall we try those previous steps together on a subset of the Liempe data?
 
-```{r}  
+```{r}
 liempe_data <- read.csv("liempe-climate-data.csv")
 ```
 
-:::{.callout-note}
+::: callout-note
 ## Question?
-What are the set of instructions you would like to execute? 
+
+What are the set of instructions you would like to execute?
 :::
 
-
-```{r} 
+```{r}
 y <- sum(liempe_data$tmp, liempe_data$rainfall)
 z <- median(y) 
 ```
 
-:::{.callout-tip}
-**BE SURE** to remove these values from your global environment! 
+::: callout-tip
+**BE SURE** to remove these values from your global environment!
 :::
 
-Let's turn that into a function 
+Let's turn that into a function
 
-1) Name (Function declaration and curly brackets)
-1) Function arguments 
-1) Function body 
-1) Return statement   
+1)  Name (Function declaration and curly brackets)
+2)  Function arguments
+3)  Function body
+4)  Return statement
 
-Remember our previous function? 
+Remember our previous function?
 
-```{r eval=FALSE,echo=TRUE} 
+```{r eval=FALSE,echo=TRUE}
 calculate_sum_median <- function(x){
   y <- sum(x$column1, x$column2)
   z <- median(y)
   return(z)
 }
 ```
-  
-Let's use this same function and change it to facilitate our dataset below: 
 
-```{r eval=FALSE,echo=TRUE} 
+Let's use this same function and change it to facilitate our dataset below:
+
+```{r eval=FALSE,echo=TRUE}
 calculate_sum_median <- function(liempe_data){
   y <- sum(liempe_data$tmp, liempe_data$rainfall)
   z <- median(y)
   return(z)
 }
 ```
+
 As with everything in R (programming), you can write the same thing in many ways! How about we write same function subsetting the dataset using brackets?
 
-```{r}     
+```{r}
 calculate_sum_mean <- function(liempe_data) {
   y <- mean(liempe_data[, "rainfall"])
   z <- mean(liempe_data[, "tmp"])
@@ -190,39 +198,39 @@ calculate_sum_mean <- function(liempe_data) {
 }
 ```
 
-
-```{r eval=FALSE,echo=TRUE} 
+```{r eval=FALSE,echo=TRUE}
 calculate_sum_mean(liempe_data)
 ```
+
 Now, let's invoke the function:
 
-```{r eval=FALSE,echo=TRUE}    
+```{r eval=FALSE,echo=TRUE}
 median_temp_rain <- calculate_sum_median(liempe_data)
 ```
 
-```{r eval=FALSE,echo=TRUE} 
+```{r eval=FALSE,echo=TRUE}
 We can also check this answer using a function we used before! 
 summary(y)
 ```
 
-:::{.callout-tip}
-## Tip!: Function indentation 
+::: callout-tip
+## Tip!: Function indentation
 
--  This is how you can indent your function. `Ctl` + `I` (Windows)
--  Check what `Ctrl` + `Shift` + `A` does
--  Also try Shift `tab` to remove any indentation
+-   This is how you can indent your function. `Ctl` + `I` (Windows)
+-   Check what `Ctrl` + `Shift` + `A` does
+-   Also try Shift `tab` to remove any indentation
 :::
-      
+
 ## Writing your own functions
 
 Let's get started on creating your own custom functions. Let's partner up, for some pair programming - it's even more fun together!
 
-:::{.callout-note collapse="true"}
+::: {.callout-note collapse="true"}
 ### Exercise 1: Create a two argument function and return one variable
 
-Possible solution: 
+Possible solution:
 
-```{r eval=FALSE,echo=TRUE} 
+```{r eval=FALSE,echo=TRUE}
 # Create the function
 squareAddition <- function(x, y){
   x_squared <- x^2
@@ -236,32 +244,31 @@ result_square <- squareAddition(5,7)
 ```
 :::
 
-:::{.callout-note}
-
+::: callout-note
 ### Exercise 2: Create a one argument function
-1)  How would you create a function that inputs the liempe dataframe, 
-    a)  calculates both the mean rainfall and 
-    a)  the mean temperature for all observations, 
-    a)  and then returns only the mean temperature?
-1)  How would you then invoke/call the function and assign it to a variable? 
+
+1)  How would you create a function that inputs the liempe dataframe,
+    a)  calculates both the mean rainfall and
+    b)  the mean temperature for all observations,
+    c)  and then returns only the mean temperature?
+2)  How would you then invoke/call the function and assign it to a variable?
 :::
 
-
-
-:::{.callout-note}
+::: callout-note
 ### Exercise 3 : Create a function that inputs two arguments
+
 1)  How would you create a function that inputs two arguments: the liempe dataframe and a number (x), then;
-    a)  Calculates the mean temperature of the dataset 
-    a)  Squares the number (x)
-    a)  Adds the temperature mean and the squared number together
-    a)  Returns the value
-1)  How would you then invoke/call the function and assign it to a variable?  
+    a)  Calculates the mean temperature of the dataset
+    b)  Squares the number (x)
+    c)  Adds the temperature mean and the squared number together
+    d)  Returns the value
+2)  How would you then invoke/call the function and assign it to a variable?\
 :::
 
-:::{.callout-tip collapse="true"}
+::: {.callout-tip collapse="true"}
 ## Exercise 3 (Possible solution ) : Create a function that inputs two arguments
 
-```{r eval=FALSE,echo=TRUE} 
+```{r eval=FALSE,echo=TRUE}
 squareAdditionMultiple <- function(x, y){
   x_squared <- x^2
   y_squared <- y^2
@@ -278,30 +285,27 @@ x_squared <- result_square_all$x_squared
 y_squared <- result_square_all$y_squared
 sum_of_squares <- result_square_all$sum_of_squares
 ```
-
 :::
 
+::: callout-note
+### Exercise 4: Two argument function / return multiple variables
 
-:::{.callout-note}
-### Exercise 4: Two argument function / return multiple variables 
+1.  How would you create a function that takes two arguments; the liempe dataset and a year,
+    a)  then calculates the mean rainfall and
+    b)  the mean temperature for the given year, returning the year, mean rainfall and mean temperature.
 
-1. How would you create a function that takes two arguments; the liempe dataset and a year, 
-    a)  then calculates the mean rainfall and 
-    a)  the mean temperature for the given year, returning the year, mean rainfall and mean temperature.
-
-:::{.callout-tip}
+::: callout-tip
 ## Tip! Perhaps you may like to subset the data first.
-i.e. Remember the subset function: 
-```{r eval=FALSE,echo=TRUE} 
+
+i.e. Remember the subset function:
+
+```{r eval=FALSE,echo=TRUE}
 subset(liempe_data, Year == year_of_interest)
 ```
 :::
 
-2. How would you then invoke/call the function and assign it to avariable?
-3. How would you access all three variables, the mean rainfall, temperature and the year?  
-
+2.  How would you then invoke/call the function and assign it to avariable?
+3.  How would you access all three variables, the mean rainfall, temperature and the year?
 :::
 
-Great job!!! You are now a fully fledged creator of functions! Now I hope that you will go on to automate and create functions in your code, especially for those computations that you repeatedly run. Start simple, with what you learnt today and before you know it you'll become more confident to program in a 'functional' style! 
-
- 
+Great job!!! You are now a fully fledged creator of functions! Now I hope that you will go on to automate and create functions in your code, especially for those computations that you repeatedly run. Start simple, with what you learnt today and before you know it you'll become more confident to program in a 'functional' style!
