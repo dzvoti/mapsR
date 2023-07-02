@@ -426,6 +426,7 @@ ylab="Soil temperature", xlim=c(8,20) ,type="n")
 points(liempe_data$soil_moisture,liempe_data$soil_temp, pch=15, col="red")
 points(chitedze_data$soil_moisture,chitedze_data$soil_temp, pch=16, col="green")
 points(domboshava_data$soil_moisture,domboshava_data$soil_temp, pch=17, col="blue")
+
 ```
 
 ::: callout-note
@@ -477,6 +478,64 @@ points(domboshava_data$soil_moisture,domboshava_data$soil_temp, pch=17, col="blu
 
 legend(16,20, legend = c("Liempe", "Chitedze","Domboshawa" ),
 pch = c(15,16, 17), col = c("red", "green","blue" ))
+
+```
+
+```{r}
+
+# Tidyverse style :)
+
+data_temp %>% 
+  ggplot() 
+
+```
+
+
+```{r}
+
+# Add the data points
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp)) 
+
+```
+
+
+```{r}
+# Add the data points
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp, colour=site)) 
+
+```
+
+
+```{r}
+# Add the data points
+
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp, shape=site, colour=site)) 
+
+```
+
+```{r}
+# Add the data points
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp, shape=site, colour=site)) +
+  theme(legend.position = "top" 
+
+```
+
+
+```{r}
+# Add the data points
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp, shape=site, colour=site)) +
+  theme_minimal() +
+  theme(legend.position = "top" 
 
 ```
 
