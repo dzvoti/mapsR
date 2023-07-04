@@ -6,7 +6,7 @@ The objective of this section is to provide information on the topic under consi
 
 ## Loading libraries
 
-```{r}
+```{r eval=TRUE}
 
 library(ggplot2) # data visualisation
 library(dplyr) # data manipulation
@@ -17,7 +17,7 @@ library(dplyr) # data manipulation
 
 To demostrate the visuals, let us load a dataframe called `'data_temp'` that has three columns `soil_temp`, `soil_moisture` and `site`.
 
-```{r}
+```{r eval=TRUE}
 
 data_temp <- read.csv(here::here("data", "soil-test.csv"))
 
@@ -230,12 +230,14 @@ You can choose to label your box plot with main title, color and label the axis 
 ```{r eval=TRUE}
 
 #Boxplot - changing the orientation
+
 data_temp %>% 
   ggplot() +
   geom_boxplot(aes(soil_moisture), colour = "dark blue") +
   coord_flip() +
   xlab("moisture (g)") +
   ggtitle("boxplot of soil moisture") 
+
 ```
 
 The thick black line in the centre of the boxplot corresponds to the median value of the data (half the values are smaller, half are larger). The bottom of the box (the blue shaded area) is the first quartile of the data, Q1 (25% of the values are smaller), and the top of the box is the third quartile of the data, Q3 (25% of the values are larger).
@@ -285,6 +287,7 @@ This allows us to create a bar chart where the heights of the bars are based on 
   data_temp %>% ggplot() +
   geom_bar(aes(site))
 
+# Checking the results of the barplot
 table(site)
 
 ```
@@ -310,13 +313,6 @@ You can also change the axis, by using the `ylim()` function
 # Changing limits and colour
  data_temp %>% ggplot() +
   geom_bar(aes(site),  fill = "light blue") +
-  ylim(0,45)+
-  xlab("Sites") +
-  ylab("count") +
-  ggtitle("Number of samples per site") 
-
- data_temp %>% ggplot() +
-  geom_bar(aes(site, fill = site)) +
   ylim(0,45)+
   xlab("Sites") +
   ylab("count") +
@@ -376,10 +372,11 @@ The list below shows arguments that can be added to the plot function as discuss
 
 ```{r eval=TRUE}
 
- # The data points per site (x, y)
+ # The changing the colour of the data points per site (x, y)
 data_temp %>% 
   ggplot() +
-  geom_point(aes(site, soil_temp), colour = "red") +
+  geom_point(aes(site, soil_temp), 
+             colour = "red") + # Define the colour of the symbols
   xlab("site") + ylab("temp") +
   ggtitle("Temperature variations by different site")
 
@@ -395,23 +392,28 @@ You can change the plotting symbol by asigning a numeric value using = sign. The
 
 ```{r eval=TRUE}
 
- # The data points per site (x, y)
+ # Changing the symbol & colour of the data points per site (x, y)
 data_temp %>% 
   ggplot() +
-  geom_point(aes(site, soil_temp), shape = 17, colour = "red") +
+  geom_point(aes(site, soil_temp), 
+             shape = 17,  # Defining the symbol
+             colour = "red") + # Defining the colour
   xlab("site") + ylab("temp") +
   ggtitle("Temperature variations by different site")
 
 ```
 
-Let us change the fill color of the symbol by using the bg argument. Remember that we can only use this when the symbol used ranges from 21 to 25.
+Let us change the fill color of the symbol by using the `fill` argument. Remember that **only symbol from 21 to 25** allow that that argument.
 
 ```{r eval=TRUE}
 
- # The data points per site (x, y)
+ # Changing the symbol, the outline colour and the fill colour of the data points per site (x, y)
+
 data_temp %>% 
   ggplot() +
-  geom_point(aes(site, soil_temp), shape = 23, colour = "red", fill = "black") +
+  geom_point(aes(site, soil_temp), shape = 23, # Define the shape
+             colour = "red",  # Define outline colour
+             fill = "black") + # Define fill colour
   xlab("site") + ylab("temp") +
   ggtitle("Temperature variations by different site")
 
@@ -423,11 +425,11 @@ We can also set the size of the symbols. We do this with the argument `size`.  T
 
 data_temp %>% 
   ggplot() +
-  geom_point(aes(site, soil_temp), 
-             shape = 23,   
-             colour = "red",
-             fill = "black", 
-             size =1) +
+  geom_point(aes(site, soil_temp), # Next argument change the symbol (point)
+             shape = 23,   # Define the symbol
+             colour = "red", # Define the outline colour
+             fill = "black",  # Define the fill colour 
+             size =1) +      # Define the size
   xlab("site") + ylab("temp") +
   ggtitle("Temperature variations by different site")
 
@@ -445,38 +447,22 @@ Note: not all symbol types accept changing fill color.
 
 ### Plot types
 
-The plot we have created so far are `scatterplots`. We can however, use alternative plot types. These may include line plot, step plot and lines with points among others. We can switch our plot to any of these graphics by using the `'type'` argument. We pass to this argument one of a series of letters with default is `p`, to indicate points, but we can also have l, b, c, o,h, s and n.
-
-Let us generate plot types `l`, using the `days` and `temp` vector.
-
-```{r eval=TRUE}
-plot(y=temp, x=days,type="l")
-```
+The plot we have created so far are `scatterplots`. We can however, use alternative plot types. These may include line plot, step plot and lines with points among others.
 
 ::: callout-note
 ## Exercise 3.7
 
-i)  Create different types of plots using the `days` and vector data you created.
-ii) Create different types of plot using the days and .
+Create a plot using the variables `soil_temp` and `soil_moisture`.
+
 :::
 
-### Scatterplots
 
-From the dataframe `data_temp`, we can plot the data by the different sites on the same plot using `colour`.
 
-```{r eval=TRUE}
-
-# Add the data points
-data_temp %>% 
-  ggplot() +
-  geom_point(aes(soil_moisture, soil_temp, colour=site)) 
-
-```
 
 ::: callout-note
 ## Exercise 3.8
 
-From your plot in Exercise 3.7 ,Update plots to differentiate the species using symbol type and color, fill colors and symbol size. You can use any symbol and fill color of your choice.
+From your plot in Exercise 3.7 ,Update plots to differentiate the sites using symbol type and color, fill colors and symbol size. You can use any symbol and fill color of your choice.
 
 ::: callout-tip
 Note: not all symbol types accept changing fill color.
@@ -484,6 +470,40 @@ Note: not all symbol types accept changing fill color.
 :::
 
 
+
+
+From the dataframe `data_temp`, we can plot the data by the different sites on the same plot using `colour`.
+
+```{r eval=TRUE}
+
+# Scatterplot of soil_moisture & soil_temp by site
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp, 
+                 colour=site)) + # Define colour by site
+xlab("moisture (g/Kg)") + # Rename x-axis
+  ylab("temp (Celsius)") + # Rename y-axis
+  # Adding a title
+  ggtitle("Variation of the temperature & moisture by different site")
+
+```
+
+You can also change the symbol `shape` by any variable, for instance, site. 
+
+```{r eval=TRUE}
+
+# Plotting soil_moisture & soil temp. by site (colour & shape)
+data_temp %>% 
+  ggplot() +
+  geom_point(aes(soil_moisture, soil_temp, 
+                 shape=site, # Defining shape by site
+                 colour=site)) +  # Defining colour by site
+xlab("moisture (g/Kg)") + # Rename x-axis
+  ylab("temp (Celsius)") + # Rename y-axis
+  # Adding a title
+  ggtitle("Variation of the temperature & moisture by different site")
+
+```
 
 ### Adding Legend to plot
 
@@ -499,11 +519,18 @@ Lets create the legend for the plot of `soil moisture` vs `temperature` at the s
 
 ```{r eval=TRUE}
 
-# Change the legend
+# Plotting soil_moisture & soil temp. by site (colour & shape)
+# Changing the position of the legend
 data_temp %>% 
   ggplot() +
-  geom_point(aes(soil_moisture, soil_temp, shape=site, colour=site)) +
-   theme(legend.position = "bottom")
+  geom_point(aes(soil_moisture, soil_temp, 
+                 shape=site, # Defining shape by site
+                 colour=site)) +  # Defining colour by site
+xlab("moisture (g/Kg)") + # Rename x-axis
+  ylab("temp (Celsius)") + # Rename y-axis
+  # Adding a title
+  ggtitle("Variation of the temperature & moisture by different site")+
+   theme(legend.position = "bottom") # Changing the position of the legend
 
 ```
 
@@ -511,10 +538,18 @@ One can alternatively use the x,y position on the plot to position the legend
 
 ```{r eval=TRUE}
 
-# Change the legend
+# Plotting soil_moisture & soil temp. by site (colour & shape)
+# Specifying the location of the legend
 data_temp %>% 
   ggplot() +
-  geom_point(aes(soil_moisture, soil_temp, shape=site, colour=site)) +
+  geom_point(aes(soil_moisture, soil_temp, 
+                 shape=site, # Defining shape by site
+                 colour=site)) +  # Defining colour by site
+xlab("moisture (g/Kg)") + # Rename x-axis
+  ylab("temp (Celsius)") + # Rename y-axis
+  # Adding a title
+  ggtitle("Variation of the temperature & moisture by different site")+
+  # Specifying the position of the legend
   theme(legend.position = c(.7, .8)) 
 
 ```
@@ -525,6 +560,7 @@ data_temp %>%
 ## Exercise 3.9
 
 From your previous plot in exercise 3.8, add a legend to the Updated plot that differentiate the species using symbol type and color, fill colors and symbol size.
+
 :::
 
 ### Controlling graphical layout
@@ -653,53 +689,3 @@ Remember to close the device when done using the `dev.off()` function, otherwise
 
 Print the plot you generated in EXERCISE to a PDF, PNG and JPEG giving it an appropriate name. Remember to close the device
 :::
-
-
-## Script for Base R
-
-
-### Histogram
-
-The function that is used to produce a histogram is the `hist()` function. A number of arguments are used in the `hist()` function.
-
-Before you go further, recall that you can produce random numbers from a normal distribution by the use of the function `rnorm()`. We use this to simulate some random temperature data
-
-```{r eval=TRUE}
-# generates a vector of 100 numbers with mean 0 and standard deviation 1
-temperature<-rnorm(100,mean=0,sd=1)  
-
-# explore the data
-print(temperature)
-
-#we can use the hist() function to make a histogram of these data 
-hist(temperature)
-
-```
-
-```{r}
-
-hist(temperature, xlab="Temperature /?C")  
-```
-
-
-In R, there is a an embedded dataset called iris. This is a famous biological data set with measurements on flowers of different species of iris , often used in multivariate statistics. You can call this data by simply typing "iris" in the console or on a script.
-
-Iris contains data for `Sepal Length`, `Sepal Width`, `Petal Length` and `Petal Width`. These variables are presented in the columns of the data set, and each row corresponds to a particular individual flower. You can see the exact variable names in the data set with the command
-
-```{r eval=TRUE}
-names(iris)
-```
-
-You can refer to a particular variable in the data set as follows
-
-```{r eval=TRUE}
-iris[,"Sepal.Length"] # notice the subsetting!
-```
-
-.. so, for example, to plot a histogram of Sepal Length, run the hist command as follows
-
-```{r eval=TRUE}
-hist(iris[,"Sepal.Length"])
-```
-
-Using these data, create a plot that shows the relation between the Sepal Length and Petal Length. label the plot and adjust axis limits appropriately
