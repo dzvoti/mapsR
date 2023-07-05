@@ -657,14 +657,16 @@ Adjust, the plot in the previous exercise so that histogram occupies the whole b
 
 ### Saving/Printing plots
 
-Now that we have known how to create graphics, one thing remaining is to print out the ouput. A number of graphics devices are available, including **PDF**, **PNG**, **JPEG**, and **bitmap**. If we do not specify the device to use, the default device will be opened, and in R this is the Plot tab.
+Now that we have known how to create graphics, one thing remaining is to print out the output. A number of graphics devices are available, including **PDF**, **PNG**, **JPEG**, and **bitmap**. If we do not specify the device to use, the default device will be opened, and in R this is the Plot tab.
 
-To print a graph to **pdf** ,**png** and **jpeg**, one must create the device before ploting the graph. This is done by using the functions
+To print a graph to **pdf** ,**png** and **jpeg**, one must create the device before plotting the graph. This is done by using the functions
 
 ```{r eval=FALSE}
+
 pdf("name.pdf")
 png("name.pgn")
 jpeg("name.jpeg") 
+
 ```
 
 The argument for these functions is the desired name of the document in quotation marks e.g. `pdf("myFirstGraphic.pdf")`. When this function is run, the plot tab in R will not appear but a pdf of the graph will be produced in the working directory.
@@ -682,7 +684,7 @@ hist(rnorm(100))
 dev.off() 
 ```
 
-Remember to close the device when done using the `dev.off()` function, otherwise all your graphics onwards will be pdf documents and not any other device e.g the R plot tab.
+Remember to close the device when done using the `dev.off()` function, otherwise all your graphics onward will be pdf documents and not any other device e.g the R plot tab.
 
 ::: callout-note
 ## Exercise 3.12
