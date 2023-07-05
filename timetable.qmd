@@ -4,11 +4,11 @@
 |Date|Session|Topics|Facilitator|
 |:---|:------|:-----|:----------|
 |Mon 03-07-2023|Morning session| Introductions||
-|||Introduction to R and RStudio|Liberty Mlambo|
+|||Introduction to R and RStudio|Lucia Segovia de la Revilla|
 |10.15-10.30||**Short Break**|(optional)|
-|||Data Visualisation and the Power of RStudio|Liberty Mlambo|
+|||Data Visualisation and the Power of RStudio|Lucia Segovia de la Revilla|
 |12.00-13.00||**Lunch Break**||
-||Afternoon session|Data Reading & Wrangling||
+||Afternoon session|Data Reading & Wrangling|Liberty Mlambo|
 |14.15-14.30||**Short Break**|(optional)|
 |||Bring your own data: Q&A|Liberty Mlambo|
 
